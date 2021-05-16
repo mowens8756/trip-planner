@@ -6,10 +6,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.SiteUser;
+
+/**
+ * SiteUser(Entity)クラスのリポジトリクラス.
+ */
 @Repository
-public interface UserRepository extends JpaRepository<SiteUser, String>{
+public interface UserRepository extends JpaRepository<SiteUser, String> {
+
 	@Query("SELECT COUNT(e) FROM SiteUser e WHERE e.username = :username")
 	long countByUsername(@Param("username") String username);
-	@Query("SELECT e FROM SiteUser e WHERE e.username = :username")
-	SiteUser findByUsername(@Param("username") String username);
 }

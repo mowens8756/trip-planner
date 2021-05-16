@@ -31,17 +31,17 @@
                       <th>ユーザネーム</th>
                       <th>メールアドレス</th>
                       <th>アクセスレベル</th>
-                      <th>作成日</th>
+                      <th>登録日</th>
                       <th>更新日</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td th:text="${username}"></td>
-                      <td th:text="${email}"></td>
-                      <td th:text="${role}"></td>
-                      <td th:text="${#dates.format(created_at, 'yyyy/MM/dd HH:mm')}"></td>
-                      <td th:text="${#dates.format(updated_at, 'yyyy/MM/dd HH:mm')}"></td>
+                    <tr th:each="userDetails : ${loginUser}" th:object="${userDetails}">
+                      <td th:text="*{username}"></td>
+                      <td th:text="*{email}"></td>
+                      <td th:text="*{role}"></td>
+                      <td th:text="*{#dates.format(created_at, 'yyyy/MM/dd HH:mm')}"></td>
+                      <td th:text="*{#dates.format(updated_at, 'yyyy/MM/dd HH:mm')}"></td>
                     </tr>
                   </tbody>
                 </table>

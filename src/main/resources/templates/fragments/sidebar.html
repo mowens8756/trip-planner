@@ -23,12 +23,12 @@
 
       <!-- Nav Item -->
       <li class="nav-item active">
-        <a class="nav-link pt-2" th:href="@{/}">
+        <a class="nav-link pt-2" th:href="@{/home}">
           <i class="fas fa-user"></i>
           <span><th:block th:text="${username}"></th:block></span>
         </a>
       </li>
-      <th:block sec:authorize="hasRole('ADMIN')">
+      <th:block sec:authorize="hasAuthority('ADMIN')">
         <li class="nav-item active">
           <a class="nav-link pt-2" th:href="@{/admin/list}">
             <i class="fas fa-table"></i>
