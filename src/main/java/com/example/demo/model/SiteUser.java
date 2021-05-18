@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,7 +25,6 @@ public class SiteUser {
 	@Id
 	@Column(name = "username", length = 30, nullable = false)
 	private String username;
-
 
 	@Column(name="email", nullable=false)
 	private String email;
