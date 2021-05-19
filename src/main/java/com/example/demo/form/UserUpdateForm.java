@@ -1,16 +1,22 @@
 package com.example.demo.form;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.example.demo.model.SiteUser;
+import com.example.demo.util.Role;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class UserUpdateForm extends UserBaseForm {
+public class UserUpdateForm implements Serializable {
 
 	/**　シリアルバージョンUID. */
 	private static final long serialVersionUID = 1L;
@@ -28,7 +34,13 @@ public class UserUpdateForm extends UserBaseForm {
     @Size(max=255)
 	@Pattern(regexp = ALPHANUMERIC_REGEXP, message = ALPHANUMERIC_MESSAGE)
     private String password;
-
+    
+    @NotBlank
+    @Email
+    private String email;
+    private String role;
+    private boolean isAdmin;
+    private boolean isActive;
 
     /**
      * コンストラクタ.
@@ -44,16 +56,8 @@ public class UserUpdateForm extends UserBaseForm {
     public UserUpdateForm(SiteUser user) {
         this.setUsername(user.getUsername());
         this.setPassword("");
-        super.setRole(user.getRole());
+        this.setRole(user.getRole());
         this.setActive(user.isActive());
-    }
-
-    /**
-     * Formクラスの設定内容を文字列で出力する.
-     */
-    public String toString() {
-        return "User(username: " + this.getUsername() + ", password: " + this.getPassword() + 
-        		", role: " + super.getRole() + ", isActive: " + super.isActive() +")";
     }
 
     /**
@@ -66,9 +70,11 @@ public class UserUpdateForm extends UserBaseForm {
         SiteUser user = new SiteUser();
         user.setUsername(this.getUsername());
         user.setPassword(this.getPassword());
-        user.setRole(super.getRole());
-        user.setActive(super.isActive());
-
+        Timestamp current_time = new Timestamp(System.currentTimeMillis());
+        user.setUpdated_at(current_time);
+        user.setRole(Role.USER.toString());
+        user.setAdmin(false);
+        user.setActive(this.isActive());
         return user;
     }
 }

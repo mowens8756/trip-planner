@@ -1,7 +1,9 @@
 package com.example.demo.form;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -18,7 +20,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserCreateForm extends UserBaseForm {
+public class UserCreateForm implements Serializable {
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -44,14 +46,21 @@ public class UserCreateForm extends UserBaseForm {
     @Size(max=255)
 	@Pattern(regexp = ALPHANUMERIC_REGEXP, message = ALPHANUMERIC_MESSAGE)
     private String password;
-
+    
+    @NotBlank
+    @Email
+    private String email;
+    private String role;
+    private boolean isAdmin;
+    private boolean isActive;
+    
     /**
      * Formクラスの設定内容を文字列で出力する.
      */
     @Override
     public String toString() {
         return "SiteUser(username: " + this.getUsername() + ", password: " + this.getPassword() + ", role: " + Role.USER.toString() 
-        		+ ", isAdmin: " + super.isAdmin() +", isActive: " + super.isActive() +")";
+        + ", isAdmin: " + this.isAdmin() +", isActive: " + this.isActive() +")";
     }
 
     /**
@@ -63,14 +72,14 @@ public class UserCreateForm extends UserBaseForm {
 
         SiteUser user = new SiteUser();
         user.setUsername(this.getUsername());
-        user.setEmail(super.getEmail());
-        user.setPassword(passwordEncoder.encode(this.getPassword()));
+        user.setEmail(this.getEmail());
+        user.setPassword(this.getPassword());
         Timestamp current_time = new Timestamp(System.currentTimeMillis());
         user.setCreated_at(current_time);
         user.setUpdated_at(current_time);
         user.setRole(Role.USER.toString());
         user.setAdmin(false);
-        user.setActive(super.isActive());
+        user.setActive(this.isActive());
         return user;
     }
 }
