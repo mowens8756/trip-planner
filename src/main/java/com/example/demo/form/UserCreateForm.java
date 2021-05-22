@@ -3,7 +3,6 @@ package com.example.demo.form;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -24,7 +23,7 @@ public class UserCreateForm implements Serializable {
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-
+	
 	/**　シリアルバージョンUID. */
 	private static final long serialVersionUID = 1L;
 
@@ -47,8 +46,6 @@ public class UserCreateForm implements Serializable {
 	@Pattern(regexp = ALPHANUMERIC_REGEXP, message = ALPHANUMERIC_MESSAGE)
     private String password;
     
-    @NotBlank
-    @Email
     private String email;
     private String role;
     private boolean isAdmin;
@@ -59,7 +56,8 @@ public class UserCreateForm implements Serializable {
      */
     @Override
     public String toString() {
-        return "SiteUser(username: " + this.getUsername() + ", password: " + this.getPassword() + ", role: " + Role.USER.toString() 
+        return "SiteUser(username: " + this.getUsername() + ", password: " + this.getPassword()
+        +", email: " + this.getEmail() +", role: " + Role.USER.toString() 
         + ", isAdmin: " + this.isAdmin() +", isActive: " + this.isActive() +")";
     }
 
@@ -73,7 +71,7 @@ public class UserCreateForm implements Serializable {
         SiteUser user = new SiteUser();
         user.setUsername(this.getUsername());
         user.setEmail(this.getEmail());
-        user.setPassword(this.getPassword());
+        user.setPassword(passwordEncoder.encode(this.getPassword()));
         Timestamp current_time = new Timestamp(System.currentTimeMillis());
         user.setCreated_at(current_time);
         user.setUpdated_at(current_time);

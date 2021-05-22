@@ -56,10 +56,16 @@ public class UserUpdateForm implements Serializable {
     public UserUpdateForm(SiteUser user) {
         this.setUsername(user.getUsername());
         this.setPassword("");
+        this.setEmail(user.getEmail());
         this.setRole(user.getRole());
+        this.setAdmin(user.isAdmin());
         this.setActive(user.isActive());
     }
-
+    public String toString() {
+        return "SiteUser(username: " + this.getUsername() + ", password: " + this.getPassword() 
+        + ", role: " + Role.USER.toString() 
+        + ", isAdmin: " + this.isAdmin() +", isActive: " + this.isActive() +")";
+    }
     /**
      * Formの設定内容をSiteUser Entityクラスに変換する.
      *
@@ -70,10 +76,11 @@ public class UserUpdateForm implements Serializable {
         SiteUser user = new SiteUser();
         user.setUsername(this.getUsername());
         user.setPassword(this.getPassword());
+        user.setEmail(this.getEmail());
         Timestamp current_time = new Timestamp(System.currentTimeMillis());
         user.setUpdated_at(current_time);
-        user.setRole(Role.USER.toString());
-        user.setAdmin(false);
+        user.setRole(this.getRole());
+        user.setAdmin(this.isAdmin());
         user.setActive(this.isActive());
         return user;
     }

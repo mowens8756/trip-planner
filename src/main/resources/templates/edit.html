@@ -3,32 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <th:block th:insert="fragments/base :: header"></th:block>
-</head>
-<body class="bg-gradient-success">
-  <!-- Main -->
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-xl-10 col-lg-12 col-md-9">
+  </head>
+  <body id="page-top">
+  
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+    <th:block th:insert="fragments/sidebar :: sidebar"></th:block>
 
-        <!-- Card -->
-        <div class="card o-hidden border-0 shadow-lg my-5">
-          <div class="card-body p-0">
-            <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-login-image">
-              </div>
-              <div class="col-lg-6">
-                <div class="p-5">
+    <!-- Main -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="content">
+        <div class="container-fluid">
 
                   <!-- Registration -->
                   <div class="text-center">
-                    <h1 class="h4 text-secondary-900 mb-4">
-                      ユーザ登録
+                    <h1 class="h4 text-secondary-900 mt-4">
+                      ユーザ編集
                     </h1>
                   </div>
-
-                  <form th:action="@{/create}" th:method="post" th:object="${userCreateForm}">
+                  
+                  <form th:action="@{/update}" th:object="${userUpdateForm}" method="post" novalidate>
                     <div class="form-group">
-                      <label for="username">ユーザネーム</label>
+                      <label for="name">ユーザネーム</label>
                       <input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{username}">
                       <div class=“invalid-feedback” th:errors="*{username}">
                       </div>
@@ -48,23 +44,18 @@
                       </div>
                     </div>
 
-                    <button type="submit" class="btn btn-success btn-user btn-block">
+                    <button class="btn btn-success btn-user btn-block">
                       登録
                     </button>
                   </form>
                   <!-- End of Registration -->
 
-                </div>
-              </div>
-            </div>
-          </div>
+              
         </div>
-        <!-- End of Card -->
-
       </div>
     </div>
+    <!-- End of Main -->
   </div>
-  <!-- End of Main -->
 
   <th:block th:insert="fragments/base :: scripts"></th:block>
 

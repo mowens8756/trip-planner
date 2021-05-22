@@ -31,6 +31,7 @@
                       <th>アクセスレベル</th>
                       <th>登録日</th>
                       <th>更新日</th>
+                      <th>操作</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -40,6 +41,15 @@
                       <td th:text="*{role}"></td>
                       <td th:text="*{#dates.format(created_at, 'yyyy/MM/dd HH:mm')}"></td>
                       <td th:text="*{#dates.format(updated_at, 'yyyy/MM/dd HH:mm')}"></td>
+                      <td>
+                      	<div class="dropdown">
+  							<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">操作選択</a>
+  								<ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    								<li><a class="dropdown-item" href="@{/edit/{username}(username=*{username})}">編集</a></li>
+    								<li><a class="dropdown-item" href="@{/destroy}">削除</a></li>
+  								</ul>
+						</div>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
