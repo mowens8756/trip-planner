@@ -1,13 +1,15 @@
 package com.example.demo.controller;
 
+import java.sql.Timestamp;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -17,68 +19,72 @@ import com.example.demo.model.SiteUser;
 import com.example.demo.service.UserService;
 
 @Controller
+@RequestMapping("/trip_planner/user_account")
 public class UserController {
 	
 	@Autowired
 	private UserService service;
 	
-	@RequestMapping("/login")
-	public String login() {
-		return "login";
-	}
-	@RequestMapping("/success")
-	public String success(Authentication loginUser, Model model) {
-		return "redirect:/userhome";
-	}
-	@RequestMapping("/userhome")
-	public String showUserDetails(Authentication loginUser, Model model) {
-		model.addAttribute("username", loginUser.getName());
-		String username = loginUser.getName();
-		model.addAttribute("loginUser", service.findOne(username));
-		return "user";
+	private final String REDIRECT_SHOW_URL = "redirect:/trip_planner/user_account/show";
+	private final String REDIRECT_LOGIN_URL = "redirect:/trip_planner/login?register";
+	private final String LIST_TEMPLATE_PATH = "/trip_planner/user_account/list";
+	private final String RESISTER_TEMPLATE_PATH = "/trip_planner/user_account/register";
+	private final String EDIT_TEMPLATE_PATH = "/trip_planner/user_account/edit";
+	private final String USER_TEMPLATE_PATH = "/trip_planner/user_account/user";
+	
+	@RequestMapping("show/{username}")
+	public String showUserDetails(@PathVariable String username, Model model) {
+		SiteUser user = service.findOne(username);
+		model.addAttribute("user",user);
+		return USER_TEMPLATE_PATH;
 	}
 	
-	@RequestMapping("/")
-	public String success() {
-		return "redirect:/userhome";
-	}
-
-	@GetMapping("/admin/list")
-	public String showAdminList(Authentication loginUser, Model model) {
-		model.addAttribute("username", loginUser.getName());
+	@GetMapping("admin/list/{username}")
+	public String showAdminList(@PathVariable String username, Model model) {
+		SiteUser user = service.findOne(username);
+		model.addAttribute("user", user);
 		model.addAttribute("users", service.findAll());
-		return "list";
+		return LIST_TEMPLATE_PATH;
 	}
 
-	@GetMapping("/register")
+	@GetMapping("register")
 	public String register(@ModelAttribute UserCreateForm userCreateForm) {
-		return "register";
+		return RESISTER_TEMPLATE_PATH;
 	}
 
-	@PostMapping("/create")
+	@PostMapping("create")
 	public String process(@Validated @ModelAttribute UserCreateForm userCreateForm, final BindingResult result) {
 		if (result.hasErrors()) {
-			return "register";
+			return RESISTER_TEMPLATE_PATH;
 		}
 		SiteUser user = userCreateForm.toEntity();
 		service.save(user);
-		return "redirect:/login?register";
+		return REDIRECT_LOGIN_URL;
 	}
-	@GetMapping("/edit")
-	public String edit(Authentication loginUser, Model model) {
-		model.addAttribute("username", loginUser.getName());
-		String username = loginUser.getName();
+	@GetMapping("edit/{username}")
+	public String edit(@PathVariable String username, Model model) {
 		SiteUser user = service.findOne(username);
+		model.addAttribute("user", user);
 		model.addAttribute("userUpdateForm", new UserUpdateForm(user));
-		return "edit";
+		return EDIT_TEMPLATE_PATH;
 	}
-	@PostMapping("/update")
-	public String update(@Validated @ModelAttribute UserUpdateForm userUpdateForm, final BindingResult result, Authentication loginUser, Model model) {
+	@PostMapping("update/{username}")
+	public String update(@Validated @ModelAttribute UserUpdateForm userUpdateForm, final BindingResult result, @PathVariable String username, Model model) {
 		if(result.hasErrors()) {
-			return "edit";
+			return EDIT_TEMPLATE_PATH;
 		}
-		SiteUser user = userUpdateForm.toEntity();
-		service.save(user);
-		return "redirect:/userhome";
+		SiteUser user = service.findOne(username);
+		model.addAttribute("user", user);
+		Timestamp created_at = user.getCreated_at();
+		String role = user.getRole();
+		boolean isAdmin = user.isAdmin();
+		boolean isActive = user.isActive();
+		userUpdateForm.setCreated_at(created_at);
+		userUpdateForm.setRole(role);
+		userUpdateForm.setAdmin(isAdmin);
+		userUpdateForm.setActive(isActive);
+		SiteUser updatedUser = userUpdateForm.toEntity();
+		service.save(updatedUser);
+		return REDIRECT_SHOW_URL;
 	}
 }

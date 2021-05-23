@@ -3,12 +3,10 @@ package com.example.demo.form;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.example.demo.annotation.CustomCheck;
 import com.example.demo.model.SiteUser;
@@ -20,9 +18,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserCreateForm implements Serializable {
-	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
 	
 	/**　シリアルバージョンUID. */
 	private static final long serialVersionUID = 1L;
@@ -46,6 +41,8 @@ public class UserCreateForm implements Serializable {
 	@Pattern(regexp = ALPHANUMERIC_REGEXP, message = ALPHANUMERIC_MESSAGE)
     private String password;
     
+    @NotBlank
+    @Email
     private String email;
     private String role;
     private boolean isAdmin;
@@ -71,7 +68,7 @@ public class UserCreateForm implements Serializable {
         SiteUser user = new SiteUser();
         user.setUsername(this.getUsername());
         user.setEmail(this.getEmail());
-        user.setPassword(passwordEncoder.encode(this.getPassword()));
+        user.setPassword(this.getPassword());
         Timestamp current_time = new Timestamp(System.currentTimeMillis());
         user.setCreated_at(current_time);
         user.setUpdated_at(current_time);

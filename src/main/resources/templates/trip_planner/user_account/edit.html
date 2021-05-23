@@ -22,7 +22,7 @@
                     </h1>
                   </div>
                   
-                  <form th:action="@{/update}" th:object="${userUpdateForm}" method="post" novalidate>
+                  <form th:action="@{/trip_planner/user_account/update}" th:object="${userUpdateForm}" method="post" novalidate>
                     <div class="form-group">
                       <label for="name">ユーザネーム</label>
                       <input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{username}">

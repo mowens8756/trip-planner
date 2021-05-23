@@ -35,7 +35,7 @@
                     <small>ログアウトしました</small>
                   </div>
 
-                  <form th:action="@{/login}" class="user" method="post">
+                  <form th:action="@{/trip_planner/login}" class="user" method="post">
                     <div class="form-group">
                       <input type="text" class="form-control form-control-user" name="username" placeholder="ユーザネーム">
                     </div>
@@ -56,7 +56,7 @@
                   </form>
                   <hr>
                   <div class="text-center">
-                  	<a th:href="@{/register}">新規登録はこちら</a>
+                  	<a th:href="@{/trip_planner/user_account/register}">新規登録はこちら</a>
                   </div>
                   <!-- End of Login -->
 

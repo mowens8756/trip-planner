@@ -9,7 +9,7 @@
     <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/}">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/trip_planner/home}">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-calendar-alt"></i>
         </div>
@@ -23,14 +23,14 @@
 
       <!-- Nav Item -->
       <li class="nav-item active">
-        <a class="nav-link pt-2" th:href="@{/userhome}">
+        <a class="nav-link pt-2" th:href="@{/trip_planner/user_account/show/{username}(username=*{username})}">
           <i class="fas fa-user"></i>
           <span><th:block th:text="${username}"></th:block></span>
         </a>
       </li>
       <th:block sec:authorize="hasAuthority('ADMIN')">
         <li class="nav-item active">
-          <a class="nav-link pt-2" th:href="@{/admin/list}">
+          <a class="nav-link pt-2" th:href="@{/trip_planner/user_account/admin/list/{username}(username=*{username})}">
             <i class="fas fa-table"></i>
             <span>ユーザ一覧</span>
           </a>
@@ -42,7 +42,7 @@
 
       <!-- Logout -->
       <li class="nav-item active">
-        <a class="nav-link" th:href="@{/logout}">
+        <a class="nav-link" th:href="@{/trip_planner/logout}">
           <i class="fas fa-sign-out-alt"></i>
           <span>ログアウト</span>
         </a>

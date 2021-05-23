@@ -26,7 +26,7 @@
                     </h1>
                   </div>
 
-                  <form th:action="@{/create}" th:method="post" th:object="${userCreateForm}">
+                  <form th:action="@{/trip_planner/user_account/create}" th:object="${userCreateForm}" method="post" novalidate>
                     <div class="form-group">
                       <label for="username">ユーザネーム</label>
                       <input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{username}">
@@ -48,7 +48,7 @@
                       </div>
                     </div>
 
-                    <button type="submit" class="btn btn-success btn-user btn-block">
+                    <button class="btn btn-success btn-user btn-block">
                       登録
                     </button>
                   </form>

@@ -9,7 +9,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.example.demo.model.SiteUser;
-import com.example.demo.util.Role;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,6 +37,7 @@ public class UserUpdateForm implements Serializable {
     @NotBlank
     @Email
     private String email;
+    private Timestamp created_at;
     private String role;
     private boolean isAdmin;
     private boolean isActive;
@@ -57,13 +57,14 @@ public class UserUpdateForm implements Serializable {
         this.setUsername(user.getUsername());
         this.setPassword("");
         this.setEmail(user.getEmail());
+        this.setCreated_at(user.getCreated_at());
         this.setRole(user.getRole());
         this.setAdmin(user.isAdmin());
         this.setActive(user.isActive());
     }
     public String toString() {
         return "SiteUser(username: " + this.getUsername() + ", password: " + this.getPassword() 
-        + ", role: " + Role.USER.toString() 
+        + ", email: " + this.getEmail() + ", created_at: " + this.getCreated_at() + ", role: " + this.getRole()
         + ", isAdmin: " + this.isAdmin() +", isActive: " + this.isActive() +")";
     }
     /**
@@ -77,6 +78,7 @@ public class UserUpdateForm implements Serializable {
         user.setUsername(this.getUsername());
         user.setPassword(this.getPassword());
         user.setEmail(this.getEmail());
+        user.setCreated_at(this.getCreated_at());
         Timestamp current_time = new Timestamp(System.currentTimeMillis());
         user.setUpdated_at(current_time);
         user.setRole(this.getRole());
