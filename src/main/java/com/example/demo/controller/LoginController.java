@@ -21,5 +21,10 @@ public class LoginController {
 	public String success(@PathVariable String username, Model model) {
 		return REDIRECT_HOME_URL;
 	}
+	
+	@RequestMapping("/")
+	public String home() {
+		return REDIRECT_HOME_URL;
+	}
 
 }
