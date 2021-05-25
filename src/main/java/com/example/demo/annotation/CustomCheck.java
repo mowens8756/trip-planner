@@ -8,6 +8,8 @@ import java.lang.annotation.RetentionPolicy;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import com.example.demo.annotation.impl.CustomCheckValidatorImpl;
+
 /**
  * CustomCheckのインターフェース.
  * RetentionPolicyはclassファイルに記録され実行時に参照できるモード(Runtime)とします.
@@ -15,7 +17,7 @@ import javax.validation.Payload;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy={CustomCheckValidator2.class})
+@Constraint(validatedBy={CustomCheckValidatorImpl.class})
 @Repeatable(CustomCheckAnnotation.class)
 public  @interface CustomCheck {
     /** 表示するエラーメッセージ(アノテーション属性で指定). */

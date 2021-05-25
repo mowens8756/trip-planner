@@ -39,10 +39,8 @@ public class UserController {
 		return USER_TEMPLATE_PATH;
 	}
 	
-	@GetMapping("admin/list/{username}")
-	public String showAdminList(@PathVariable String username, Model model) {
-		SiteUser user = service.findOne(username);
-		model.addAttribute("user", user);
+	@GetMapping("admin/list")
+	public String showAdminList(Model model) {
 		model.addAttribute("users", service.findAll());
 		return LIST_TEMPLATE_PATH;
 	}
@@ -57,6 +55,10 @@ public class UserController {
 		if (result.hasErrors()) {
 			return RESISTER_TEMPLATE_PATH;
 		}
+
+		// アカウントを有効にする
+		userCreateForm.setActive(true);
+
 		SiteUser user = userCreateForm.toEntity();
 		service.save(user);
 		return REDIRECT_LOGIN_URL;
@@ -64,27 +66,32 @@ public class UserController {
 	@GetMapping("edit/{username}")
 	public String edit(@PathVariable String username, Model model) {
 		SiteUser user = service.findOne(username);
-		model.addAttribute("user", user);
+
 		model.addAttribute("userUpdateForm", new UserUpdateForm(user));
 		return EDIT_TEMPLATE_PATH;
 	}
-	@PostMapping("update/{username}")
-	public String update(@Validated @ModelAttribute UserUpdateForm userUpdateForm, final BindingResult result, @PathVariable String username, Model model) {
+	@PostMapping("update")
+	public String update(@Validated @ModelAttribute UserUpdateForm userUpdateForm, final BindingResult result, Model model) {
 		if(result.hasErrors()) {
 			return EDIT_TEMPLATE_PATH;
 		}
-		SiteUser user = service.findOne(username);
-		model.addAttribute("user", user);
+
+		SiteUser user = service.findOne(userUpdateForm.getUsername());
+
 		Timestamp created_at = user.getCreated_at();
 		String role = user.getRole();
 		boolean isAdmin = user.isAdmin();
 		boolean isActive = user.isActive();
+
 		userUpdateForm.setCreated_at(created_at);
 		userUpdateForm.setRole(role);
 		userUpdateForm.setAdmin(isAdmin);
 		userUpdateForm.setActive(isActive);
 		SiteUser updatedUser = userUpdateForm.toEntity();
+
 		service.save(updatedUser);
-		return REDIRECT_SHOW_URL;
+
+		model.addAttribute("user", user);
+		return REDIRECT_SHOW_URL +"/" + userUpdateForm.getUsername();
 	}
 }

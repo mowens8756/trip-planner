@@ -1,64 +1,68 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-  <meta charset="UTF-8">
+	<meta charset="UTF-8">
 </head>
+
 <body>
-  <th:block th:fragment="sidebar">
-    <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
+	<th:block th:fragment="sidebar">
+		<!-- Sidebar -->
+		<ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/trip_planner/home}">
-        <div class="sidebar-brand-icon rotate-n-15">
-          <i class="fas fa-calendar-alt"></i>
-        </div>
-        <div class="sidebar-brand-text mx-3">
-          Trip Planner
-        </div>
-      </a>
+			<!-- Sidebar - Brand -->
+			<a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/trip_planner/home}">
+				<div class="sidebar-brand-icon rotate-n-15">
+					<i class="fas fa-calendar-alt"></i>
+				</div>
+				<div class="sidebar-brand-text mx-3">
+					Trip Planner
+				</div>
+			</a>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
+			<!-- Divider -->
+			<hr class="sidebar-divider d-none d-md-block">
 
-      <!-- Nav Item -->
-      <li class="nav-item active">
-        <a class="nav-link pt-2" th:href="@{/trip_planner/user_account/show/{username}(username=*{username})}">
-          <i class="fas fa-user"></i>
-          <span><th:block th:text="${username}"></th:block></span>
-        </a>
-      </li>
-      <th:block sec:authorize="hasAuthority('ADMIN')">
-        <li class="nav-item active">
-          <a class="nav-link pt-2" th:href="@{/trip_planner/user_account/admin/list/{username}(username=*{username})}">
-            <i class="fas fa-table"></i>
-            <span>ユーザ一覧</span>
-          </a>
-        </li>
-      </th:block>
+			<!-- Nav Item -->
+			<li class="nav-item active">
+				 <a class="nav-link pt-2"
+					th:href="@{/trip_planner/user_account/show/{username}(username=${#authentication.name})}">
+					<i class="fas fa-user"></i>
+					<span sec:authentication="name"></span>
+				</a>
+			</li>
+			<th:block sec:authorize="hasAuthority('ADMIN')">
+				<li class="nav-item active">
+					<a class="nav-link pt-2" th:href="@{/trip_planner/user_account/admin/list}">
+						<i class="fas fa-table"></i>
+						<span>ユーザ一覧</span>
+					</a>
+				</li>
+			</th:block>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
+			<!-- Divider -->
+			<hr class="sidebar-divider d-none d-md-block">
 
-      <!-- Logout -->
-      <li class="nav-item active">
-        <a class="nav-link" th:href="@{/trip_planner/logout}">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>ログアウト</span>
-        </a>
-      </li>
+			<!-- Logout -->
+			<li class="nav-item active">
+				<a class="nav-link" th:href="@{/trip_planner/logout}">
+					<i class="fas fa-sign-out-alt"></i>
+					<span>ログアウト</span>
+				</a>
+			</li>
 
-      <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
+			<!-- Divider -->
+			<hr class="sidebar-divider d-none d-md-block">
 
-      <!-- Sidebar Toggler (Sidebar) -->
-      <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle">
-        </button>
-      </div>
+			<!-- Sidebar Toggler (Sidebar) -->
+			<div class="text-center d-none d-md-inline">
+				<button class="rounded-circle border-0" id="sidebarToggle">
+				</button>
+			</div>
 
-    </ul>
-    <!-- End of Sidebar -->
-  </th:block>
+		</ul>
+		<!-- End of Sidebar -->
+	</th:block>
 </body>
+
 </html>
