@@ -21,6 +21,9 @@
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-success">
 								ユーザ一覧
+								<th:block>
+									<a role="button" class="btn btn-outline-success float-right btn-sm" th:href="@{/trip_planner/user_account/register_admin}">管理者追加</a>
+								</th:block>
 							</h6>
 						</div>
 						<div class="card-body">
@@ -45,7 +48,7 @@
 											<td th:text="*{#dates.format(updated_at, 'yyyy/MM/dd HH:mm')}"></td>
 											<td>
 												<div class="dropdown">
-													<button class="btn btn-secondary dropdown-toggle" type="button" th:id="|dropdownMenuButton-*{username}|" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<button class="btn btn-outline-secondary dropdown-toggle" type="button" th:id="|dropdownMenuButton-*{username}|" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 														操作選択
 													</button>
 													<div class="dropdown-menu" th:aria-labelledby="|dropdownMenuButton-*{username}|">
@@ -61,7 +64,7 @@
 						</div>
 					</div>
 					<!-- End of List -->
-
+					
 				</div>
 			</div>
 		</div>

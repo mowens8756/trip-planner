@@ -24,11 +24,11 @@
 									<!-- Registration -->
 									<div class="text-center">
 										<h1 class="h4 text-secondary-900 mb-4">
-											ユーザ登録
+											管理者登録
 										</h1>
 									</div>
 
-									<form th:action="@{/trip_planner/user_account/create}" th:object="${userCreateForm}"
+									<form th:action="@{/trip_planner/user_account/create_admin}" th:object="${adminCreateForm}"
 										method="post" novalidate>
 										<div class="form-group">
 											<label for="username">ユーザネーム</label>
