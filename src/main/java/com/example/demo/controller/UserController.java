@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.form.AdminCreateForm;
 import com.example.demo.form.UserCreateForm;
+import com.example.demo.form.UserDeleteForm;
 import com.example.demo.form.UserUpdateForm;
 import com.example.demo.model.SiteUser;
 import com.example.demo.service.UserService;
@@ -31,6 +32,7 @@ public class UserController {
 	private final String RESISTER_TEMPLATE_PATH = "/trip_planner/user_account/register";
 	private final String RESISTER_ADMIN_TEMPLATE_PATH = "/trip_planner/user_account/register_admin";
 	private final String EDIT_TEMPLATE_PATH = "/trip_planner/user_account/edit";
+	private final String DELETE_TEMPLATE_PATH = "/trip_planner/user_account/delete";
 	private final String USER_TEMPLATE_PATH = "/trip_planner/user_account/user";
 	
 	@RequestMapping("show/{username}")
@@ -91,6 +93,7 @@ public class UserController {
 		model.addAttribute("userUpdateForm", new UserUpdateForm(user));
 		return EDIT_TEMPLATE_PATH;
 	}
+	
 	@PostMapping("update")
 	public String update(@Validated @ModelAttribute UserUpdateForm userUpdateForm, final BindingResult result, Model model) {
 		if(result.hasErrors()) {
@@ -105,4 +108,27 @@ public class UserController {
 		service.save(updatedUser);
 		return REDIRECT_SHOW_URL +"/" + userUpdateForm.getUsername();
 	}
+	
+	@GetMapping("delete/{username}")
+	public String delete(@PathVariable String username, Model model) {
+		SiteUser user = service.findOne(username);
+		model.addAttribute("userDeleteForm", new UserDeleteForm(user));
+		return DELETE_TEMPLATE_PATH;
+	}
+	
+	@PostMapping("deactivate")
+	public String deactivate(@Validated @ModelAttribute UserDeleteForm userDeleteForm, final BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			return DELETE_TEMPLATE_PATH;
+		}
+		SiteUser user = service.findOne(userDeleteForm.getUsername());
+		userDeleteForm.setCreated_at(user.getCreated_at());
+		userDeleteForm.setRole(user.getRole());
+		userDeleteForm.setAdmin(user.isAdmin());
+		userDeleteForm.setActive(false);
+		SiteUser deactivatedUser = userDeleteForm.toEntity();
+		service.save(deactivatedUser);
+		return REDIRECT_LIST_URL;
+	}
+	
 }

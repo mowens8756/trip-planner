@@ -20,11 +20,13 @@
 					<!-- Registration -->
 					<div class="text-center">
 						<h1 class="h4 text-secondary-900 mt-4">
-							ユーザ編集
+							ユーザ削除
 						</h1>
 					</div>
-
-					<form th:action="@{/trip_planner/user_account/update}" th:object="${userUpdateForm}" method="post"
+					<div>
+						<p class="text-secondary">下記のユーザを削除します。</p>
+					</div>
+					<form th:action="@{/trip_planner/user_account/deactivate}" th:object="${userDeleteForm}" method="post"
 						novalidate>
 						<div class="form-group">
 							<label for="name">ユーザネーム</label>
@@ -33,22 +35,17 @@
 
 						<div class="form-group">
 							<label for="password">パスワード</label>
-							<input type="password" class="form-control" th:errorclass="is-invalid"
-								th:field="*{password}">
-							<div class="invalid-feedback" th:errors="*{password}">
-							</div>
+							<input type="password" class="form-control" th:field="*{password}" readonly>
 						</div>
 
 						<div class="form-group">
 							<label for="email">メールアドレス</label>
-							<input type="email" class="form-control" th:errorclass="is-invalid" th:field="*{email}">
-							<div class="invalid-feedback" th:errors="*{email}">
-							</div>
+							<input type="email" class="form-control" th:field="*{email}" readonly>
 						</div>
 						<br>
 						<div class="float-left">
 							<button type="submit" class="btn btn-success">
-								保存
+								確定
 							</button>
 						</div>
 					</form>
