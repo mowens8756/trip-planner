@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<th:block th:insert="trip_planner/fragments/base :: header"></th:block>
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<th:block th:insert="trip_planner/fragments/sidebar :: sidebar"></th:block>
+
+		<!-- Main -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<div class="container-fluid">
+
+					<!-- Registration -->
+					<div class="text-center">
+						<h1 class="h4 text-secondary-900 mt-4">
+							新規作成
+						</h1>
+					</div>
+
+					<form th:action="@{/trip_planner/trip_plan/create_trip}" th:object="${tripCreateForm}" method="post"
+						novalidate>
+						<div class="form-group">
+							<input type="hidden" class="form-control" th:field="*{username}">
+						</div>
+
+						<div class="form-group">
+							<label for="title">タイトル</label>
+							<input type="text" class="form-control" th:errorclass="is-invalid"
+								th:field="*{title}">
+							<div class="invalid-feedback" th:errors="*{title}">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="destination">目的地</label>
+							<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{destination}">
+							<div class="invalid-feedback" th:errors="*{destination}">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="travel_days">日数</label>
+							<input type="text" class="form-control" th:errorclass="is-invalid" th:field="*{travel_days}">
+							<div class="invalid-feedback" th:errors="*{travel_days}">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="currency">通貨</label>
+								<div class="form-check form-check-inline" th:each="currency:${T(com.example.demo.util.Currency).CURRENCIES}">
+									<input type="radio" class="ml-2" th:field="*{currency}" th:value="${currency.key}">
+										<label th:for="${#ids.prev('currency')}" th:text="${currency.value}"></label>
+								</div>
+						</div>
+						
+						<div class="float-left">
+							<button type="submit" class="btn btn-success" th:href="@{/trip_planner/trip_plan/new_itinerary}">
+								次へ
+							</button>
+						</div>
+					</form>
+					<!-- End of Registration -->
+
+
+				</div>
+			</div>
+		</div>
+		<!-- End of Main -->
+	</div>
+
+	<th:block th:insert="trip_planner/fragments/base :: scripts"></th:block>
+
+
+</body>
+
+</html>

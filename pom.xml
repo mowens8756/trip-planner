@@ -74,11 +74,6 @@
 			<version>0.40</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jszip</artifactId>
-			<version>3.1.0</version>
-		</dependency>
-		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
@@ -99,13 +94,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
-			<artifactId>datatables-buttons</artifactId>
-			<version>1.6.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>datatables-plugins</artifactId>
-			<version>1.10.21</version>
+			<artifactId>jquery</artifactId>
+			<version>3.6.0</version>
 		</dependency>
 	</dependencies>
 
