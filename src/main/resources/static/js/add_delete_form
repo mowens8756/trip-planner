@@ -1,0 +1,5 @@
+$('#form-plus').click(function(){
+  if ($('#form-area').children().length < 10) {
+    $('#form-area').append('<input type="text">');
+  }
+});

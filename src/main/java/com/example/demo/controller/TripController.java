@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,17 +41,17 @@ public class TripController {
 	private final String REDIRECT_HOME_URL = "redirect:/trip_planner/home";
 	
 	@GetMapping("new_trip")
-	public String plan(@ModelAttribute TripCreateForm tripCreateForm) {
+	public String plan(@ModelAttribute TripCreateForm tripCreateForm, @AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+		SiteUser loginUser = userService.findOne(userDetails.getUsername());
+		model.addAttribute("username", loginUser.getUsername());
 		return NEW_TRIP_TEMPLATE_PATH;
 	}
 	
 	@PostMapping("create_trip")
-	public String process(@Validated @ModelAttribute TripCreateForm tripCreateForm, final BindingResult result, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+	public String process(@Validated @ModelAttribute TripCreateForm tripCreateForm, final BindingResult result) {
 		if (result.hasErrors()) {
 			return NEW_TRIP_TEMPLATE_PATH;
 		}
-		SiteUser loginUser = userService.findOne(userDetails.getUsername());
-		tripCreateForm.setUsername(loginUser.getUsername());
 		Trip trip = tripCreateForm.toEntity();
 		session.setAttribute("trip", trip);
 		return NEW_ITINERARY_TEMPLATE_PATH;
