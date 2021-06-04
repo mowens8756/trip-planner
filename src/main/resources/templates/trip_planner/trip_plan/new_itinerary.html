@@ -26,44 +26,42 @@
 
 					<form th:action="@{/trip_planner/trip_plan/create_itinerary}" th:object="${itineraryCreateForm}" method="post"
 						novalidate>
-						<div id="form-area" class="form-group">
-							<input type="hidden" class="form-control" th:field="*{trip_id}">
-						</div>
-						<div id="form-area" class="form-group">
-							<input type="hidden" class="form-control" th:field="*{username}">
-						</div>
-						<div id="form-area" class="form-row">
+						<div id="form-area[0]" class="form-row">
+							<div class="form-group">
+								<input type="hidden" class="form-control" name="trip_id[0]" id="trip_id[0]" th:field="*{trip_id}">
+							</div>
+							<div class="form-group">
+								<input type="hidden" class="form-control" name="username[0]" id="username[0]" th:field="*{username}">
+							</div>
 							<div class="form-group col">
 								<label for="itinerary_date">日付</label>
-								<input type="date" class="form-control" th:field="*{itinerary_date}">
+								<input type="date" class="form-control" name="itinerary_date[0]" id="itinerary_date[0]" th:field="*{itinerary_date}">
 							</div>
 							<div class="form-group col">
 								<label for="start_at">開始時間</label>
-								<input type="time" class="form-control" th:field="*{start_at}">
+								<input type="time" class="form-control" name="start_at[0]" id="start_at[0]" th:field="*{start_at}">
 							</div>
 							<div class="form-group col">
 								<label for="end_at">終了時間</label>
-								<input type="time" class="form-control" th:field="*{end_at}">
+								<input type="time" class="form-control" name="end_at[0]" id="end_at[0]" th:field="*{end_at}">
 							</div>
 							<div class="form-group col">
 								<label for="location">場所</label>
-								<input type="text" class="form-control" th:errorclass="is-invalid"　th:field="*{location}">
-								<div class="invalid-feedback" th:errors="*{location}">
+								<input type="text" class="form-control" th:errorclass="is-invalid" name="location[0]" id="location[0]" th:field="*{location}">
+								<div class="invalid-feedback" th:errors="*{location}"></div>
 							</div>
-						</div>
-						<div id="form-area" class="form-row">
 							<div class="form-group col">
 								<label for="note">備考</label>
-								<textarea class="form-control" th:field="*{note}" rows="2"></textarea>
+								<textarea class="form-control" name="note[0]" id="note[0]" th:field="*{note}" rows="2"></textarea>
 							</div>
 							<div class="form-group col">
 								<label for="amount">金額</label>
-								<input type="text" class="form-control" th:field="*{amount}">
+								<input type="text" class="form-control" name="amount[0]" id="amount[0]" th:field="*{amount}">
 							</div>
-							</div>
+							<span class="close" title="Close" style="display: none;">-</span>
 						</div>
-						<div id="form-plus" class="btn btn-success">+</div>
-						<div id="form-minus" class="btn btn-success">-</div>
+						<div id="form-plus" class="btn btn-primary">+</div>
+						<br><br>
 						<div class="float-left">
 							<button type="submit" class="btn btn-success">
 								保存

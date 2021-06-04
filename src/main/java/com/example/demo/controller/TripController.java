@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,19 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.demo.form.ItineraryCreateForm;
 import com.example.demo.form.TripCreateForm;
 import com.example.demo.model.Itinerary;
-import com.example.demo.model.SiteUser;
 import com.example.demo.model.Trip;
 import com.example.demo.model.impl.UserDetailsImpl;
 import com.example.demo.service.ItineraryService;
 import com.example.demo.service.TripService;
-import com.example.demo.service.UserService;
 
 @Controller
 @RequestMapping("/trip_planner/trip_plan")
 public class TripController {
 	
-	@Autowired
-	private UserService userService;
 	@Autowired
 	private TripService tripService;
 	@Autowired
@@ -41,9 +36,8 @@ public class TripController {
 	private final String REDIRECT_HOME_URL = "redirect:/trip_planner/home";
 	
 	@GetMapping("new_trip")
-	public String plan(@ModelAttribute TripCreateForm tripCreateForm, @AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
-		SiteUser loginUser = userService.findOne(userDetails.getUsername());
-		model.addAttribute("username", loginUser.getUsername());
+	public String plan(@ModelAttribute TripCreateForm tripCreateForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+		tripCreateForm.setUsername(userDetails.getUsername());
 		return NEW_TRIP_TEMPLATE_PATH;
 	}
 	
@@ -58,20 +52,19 @@ public class TripController {
 	}
 	
 	@GetMapping("new_itinerary")
-	public String plan(@ModelAttribute ItineraryCreateForm itineraryCreateForm) {
+	public String plan(@ModelAttribute ItineraryCreateForm itineraryCreateForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+		itineraryCreateForm.setUsername(userDetails.getUsername());
 		return NEW_ITINERARY_TEMPLATE_PATH;
 	}
 	
 	@PostMapping("create_itinerary")
-	public String process(@Validated @ModelAttribute ItineraryCreateForm itineraryCreateForm, final BindingResult result, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+	public String process(@Validated @ModelAttribute ItineraryCreateForm itineraryCreateForm, final BindingResult result) {
 		if (result.hasErrors()) {
 			return NEW_ITINERARY_TEMPLATE_PATH;
 		}
 		Trip trip = (Trip) session.getAttribute("trip");
-		tripService.save(trip);
-		SiteUser loginUser = userService.findOne(userDetails.getUsername());
-		itineraryCreateForm.setUsername(loginUser.getUsername());
 		itineraryCreateForm.setTrip_id(trip.getTrip_id());
+		tripService.save(trip);
 		Itinerary itinerary = itineraryCreateForm.toEntity();
 		itineraryService.save(itinerary);
 		session.removeAttribute("trip");
