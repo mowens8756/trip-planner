@@ -42,7 +42,7 @@ public class TripController {
 	}
 	
 	@PostMapping("create_trip")
-	public String process(@Validated @ModelAttribute TripCreateForm tripCreateForm, final BindingResult result) {
+	public String process(@Validated @ModelAttribute TripCreateForm tripCreateForm, @ModelAttribute ItineraryCreateForm itineraryCreateForm, final BindingResult result) {
 		if (result.hasErrors()) {
 			return NEW_TRIP_TEMPLATE_PATH;
 		}
