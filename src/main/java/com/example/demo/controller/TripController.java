@@ -1,5 +1,9 @@
 package com.example.demo.controller;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,42 +36,41 @@ public class TripController {
 	HttpSession session;
 	
 	private final String NEW_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/new_trip";
-	private final String NEW_ITINERARY_TEMPLATE_PATH = "/trip_planner/trip_plan/new_itinerary";
 	private final String REDIRECT_HOME_URL = "redirect:/trip_planner/home";
 	
 	@GetMapping("new_trip")
 	public String plan(@ModelAttribute TripCreateForm tripCreateForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 		tripCreateForm.setUsername(userDetails.getUsername());
+		List<ItineraryCreateForm> itinerary = new ArrayList<ItineraryCreateForm>();
+		for (int i = 0; i < 5; ++i) {
+			itinerary.add(new ItineraryCreateForm());
+		}
+		tripCreateForm.setItineraryCreateForm(itinerary);
 		return NEW_TRIP_TEMPLATE_PATH;
 	}
 	
 	@PostMapping("create_trip")
-	public String process(@Validated @ModelAttribute TripCreateForm tripCreateForm, @ModelAttribute ItineraryCreateForm itineraryCreateForm, final BindingResult result) {
+	public String process(@Validated @ModelAttribute TripCreateForm tripCreateForm, final BindingResult result) {
 		if (result.hasErrors()) {
 			return NEW_TRIP_TEMPLATE_PATH;
 		}
-		Trip trip = tripCreateForm.toEntity();
-		session.setAttribute("trip", trip);
-		return NEW_ITINERARY_TEMPLATE_PATH;
-	}
-	
-	@GetMapping("new_itinerary")
-	public String plan(@ModelAttribute ItineraryCreateForm itineraryCreateForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-		itineraryCreateForm.setUsername(userDetails.getUsername());
-		return NEW_ITINERARY_TEMPLATE_PATH;
-	}
-	
-	@PostMapping("create_itinerary")
-	public String process(@Validated @ModelAttribute ItineraryCreateForm itineraryCreateForm, final BindingResult result) {
-		if (result.hasErrors()) {
-			return NEW_ITINERARY_TEMPLATE_PATH;
-		}
-		Trip trip = (Trip) session.getAttribute("trip");
-		itineraryCreateForm.setTrip_id(trip.getTrip_id());
+		Trip trip = new Trip();
+		Itinerary itinerary = new Itinerary();
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		trip.setCreated_at(currentTime);
+		trip.setUpdated_at(currentTime);
+		itinerary.setCreated_at(currentTime);
+		itinerary.setUpdated_at(currentTime);
+		trip.setUsername(tripCreateForm.getUsername());
+		trip.setTitle(tripCreateForm.getTitle());
+		trip.setDestination(tripCreateForm.getDestination());
+		trip.setTravel_days(tripCreateForm.getTravel_days());
+		trip.setCurrency(tripCreateForm.getCurrency());
 		tripService.save(trip);
-		Itinerary itinerary = itineraryCreateForm.toEntity();
+		itinerary.setTrip_id(trip.getTrip_id());
+		itinerary.setUsername(tripCreateForm.getUsername());
+		
 		itineraryService.save(itinerary);
-		session.removeAttribute("trip");
 		return REDIRECT_HOME_URL;
 	}
 }

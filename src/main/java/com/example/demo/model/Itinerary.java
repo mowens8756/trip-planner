@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -33,13 +31,13 @@ public class Itinerary {
 	private String username;
 	
 	@Column(name = "itinerary_date", nullable = false)
-	private Date itinerary_date;
+	private String itinerary_date;
 	
 	@Column(name = "start_at", nullable = false)
-	private Time start_at;
+	private String start_at;
 	
 	@Column(name = "end_at", nullable = false)
-	private Time end_at;
+	private String end_at;
 	
 	@Column(name = "location", length = 200, nullable = false)
 	private String location;
