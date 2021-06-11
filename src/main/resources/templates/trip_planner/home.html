@@ -12,15 +12,57 @@
 	<div id="wrapper">
 		<th:block th:insert="trip_planner/fragments/sidebar :: sidebar"></th:block>
 
-		<!-- Main -->
 		<div id="content-wrapper" class="d-flex flex-column">
 			<div id="content">
 				<div class="container-fluid">
 
 					<!-- List -->
-					HOME
+					<div class="card shadow my-4">
+						<div class="card-header py-3">
+							<h6 class="m-0 font-weight-bold text-success">
+								旅程表一覧
+							</h6>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table id="trip-table" class="table table-bordered">
+									<thead>
+										<tr>
+											<th>タイトル</th>
+											<th>目的地</th>
+											<th>日数</th>
+											<th>作成者</th>
+											<th>作成日</th>
+											<th>更新日</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="trip : ${trips}" th:object="${trip}">
+											<td th:text="*{title}"></td>
+											<td th:text="*{destination}"></td>
+											<td th:text="*{travel_days}"></td>
+											<td th:text="*{username}"></td>
+											<td th:text="*{#dates.format(created_at, 'yyyy/MM/dd HH:mm')}"></td>
+											<td th:text="*{#dates.format(updated_at, 'yyyy/MM/dd HH:mm')}"></td>
+											<td>
+												<button class="btn btn-outline-secondary dropdown-toggle" type="button" th:id="|dropdownMenuButton-*{trip_id}|" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													操作選択
+												</button>
+												<div class="dropdown-menu" th:aria-labelledby="|dropdownMenuButton-*{trip_id}|">
+													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/edit/{trip_id}(trip_id=*{trip_id})}">編集</a>
+													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/show/{trip_id}(trip_id=*{trip_id})}">詳細</a>
+													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/delete/{trip_id}(trip_id=*{trip_id})}">削除</a>
+												</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
 					<!-- End of List -->
-
+					
 				</div>
 			</div>
 		</div>
