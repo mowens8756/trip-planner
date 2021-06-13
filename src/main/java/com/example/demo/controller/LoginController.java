@@ -1,11 +1,17 @@
 package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.service.TripService;
+
 @Controller
 public class LoginController {
+	
+	@Autowired
+	private TripService tripService;
 	
 	private final String LOGIN_TEMPLATE_PATH = "/trip_planner/login";
 	private final String REDIRECT_HOME_URL = "redirect:/trip_planner/home";
@@ -32,7 +38,8 @@ public class LoginController {
 	}
 
 	@RequestMapping("/trip_planner/home")
-	public String home() {
+	public String home(Model model) {
+		model.addAttribute("trips", tripService.findAll());
 		return HOME_URL;
 	}
 

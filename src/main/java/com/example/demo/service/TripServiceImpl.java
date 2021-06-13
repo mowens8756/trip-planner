@@ -46,4 +46,14 @@ public class TripServiceImpl implements TripService{
 	public Trip save(Trip trip) {
 		return repository.save(trip);
 	}
+	
+	/**
+	 * ユーザー名に紐付くTrip(Entity)クラスのデータを全件取得する.
+	 *
+	 * @param username ユーザー名
+	 * @return ユーザー名に紐付くtripsテーブルの全件データ
+	 */
+	public List<Trip> findAllByUsername(String username){
+		return repository.findAllByUsername(username);
+	}	
 }

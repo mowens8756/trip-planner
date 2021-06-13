@@ -34,6 +34,7 @@
 											<th>作成者</th>
 											<th>作成日</th>
 											<th>更新日</th>
+											<th>操作</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -44,6 +45,16 @@
 											<td th:text="*{username}"></td>
 											<td th:text="*{#dates.format(created_at, 'yyyy/MM/dd HH:mm')}"></td>
 											<td th:text="*{#dates.format(updated_at, 'yyyy/MM/dd HH:mm')}"></td>
+											<td>
+												<button class="btn btn-outline-secondary dropdown-toggle" type="button" th:id="|dropdownMenuButton-*{trip_id}|" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													操作選択
+												</button>
+												<div class="dropdown-menu" th:aria-labelledby="|dropdownMenuButton-*{trip_id}|">
+													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/edit/{trip_id}(trip_id=*{trip_id})}">編集</a>
+													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/show/{trip_id}(trip_id=*{trip_id})}">詳細</a>
+													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/delete/{trip_id}(trip_id=*{trip_id})}">削除</a>
+												</div>
+											</td>
 										</tr>
 									</tbody>
 								</table>

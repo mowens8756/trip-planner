@@ -27,5 +27,12 @@ public interface TripService {
 	 * @return 保存したTrip(Entity)クラス
 	 */
 	public Trip save(Trip trip);
-
+	
+	/**
+	 * ユーザー名に紐付くTrip(Entity)クラスのデータを全件取得する.
+	 *
+	 * @param username ユーザー名
+	 * @return ユーザー名に紐付くtripsテーブルの全件データ
+	 */
+	public List<Trip> findAllByUsername(String username);
 }

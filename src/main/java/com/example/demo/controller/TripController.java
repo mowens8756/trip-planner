@@ -4,8 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -33,11 +31,9 @@ public class TripController {
 	private TripService tripService;
 	@Autowired
 	private ItineraryService itineraryService;
-	@Autowired
-	HttpSession session;
 	
 	private final String NEW_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/new_trip";
-	private final String HOME_URL = "/trip_planner/home";
+	private final String SHOW_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/show_trip";
 	private final String REDIRECT_HOME_URL = "redirect:/trip_planner/home";
 	
 	@GetMapping("new_trip")
@@ -84,9 +80,10 @@ public class TripController {
 		}
 		return REDIRECT_HOME_URL;
 	}
-	@GetMapping("home")
-	public String showTripList(Model model) {
-		model.addAttribute("trips", tripService.findAll());
-		return HOME_URL;
+	@GetMapping("show_trip")
+	public String showTripList(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+		String username = userDetails.getUsername();
+		model.addAttribute("trips", tripService.findAllByUsername(username));
+		return SHOW_TRIP_TEMPLATE_PATH;
 	}
 }
