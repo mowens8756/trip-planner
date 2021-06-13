@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,6 +15,12 @@ import lombok.Data;
 public class ItineraryUpdateForm implements Serializable{
 	/**　シリアルバージョンUID. */
 	private static final long serialVersionUID = 1L;
+	
+	@NotNull
+	private Integer itinerary_id;
+	
+	@NotNull
+	private Integer trip_id;
 	
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private String itinerary_date;

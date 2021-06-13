@@ -20,6 +20,8 @@ public class TripUpdateForm implements Serializable{
 	/**　シリアルバージョンUID. */
 	private static final long serialVersionUID = 1L;
 	
+	@NotNull
+	private Integer trip_id;
 	@NotBlank
 	@Size(max = 30)
 	private String username;

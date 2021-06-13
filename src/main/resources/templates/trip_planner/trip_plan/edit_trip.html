@@ -26,6 +26,10 @@
 						<div class="form-group">
 							<input type="hidden" class="form-control" th:field="*{username}">
 						</div>
+						
+						<div class="form-group">
+							<input type="hidden" class="form-control" th:field="*{trip_id}">
+						</div>
 
 						<div class="form-group">
 							<label for="title">タイトル</label>
@@ -103,6 +107,9 @@
 									<th>
 										<input type="text" class="form-control" th:field="*{itineraryUpdateForm[__${stat.index}__].amount}" th:value="${itinerary.amount}">
 										<div th:if="${#fields.hasErrors('itineraryUpdateForm[' + stat.index + '].amount')}" th:errors="*{itineraryUpdateForm[__${stat.index}__].amount}"></div>
+									</th>
+									<th>
+										<input type="hidden" class="form-control" th:field="*{itineraryUpdateForm[__${stat.index}__].itinerary_id}" th:value="${itinerary.itinerary_id}">
 									</th>
 								</tr>
 							</tbody>

@@ -21,7 +21,6 @@ import com.example.demo.form.ItineraryUpdateForm;
 import com.example.demo.form.TripCreateForm;
 import com.example.demo.form.TripUpdateForm;
 import com.example.demo.model.Itinerary;
-import com.example.demo.model.SiteUser;
 import com.example.demo.model.Trip;
 import com.example.demo.model.impl.UserDetailsImpl;
 import com.example.demo.service.ItineraryService;
@@ -87,7 +86,7 @@ public class TripController {
 	}
 	
 	@GetMapping("show_trip")
-	public String showTripList(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+	public String show(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 		String username = userDetails.getUsername();
 		model.addAttribute("trips", tripService.findAllByUsername(username));
 		return SHOW_TRIP_TEMPLATE_PATH;
@@ -104,10 +103,65 @@ public class TripController {
 	public String edit(@PathVariable Integer trip_id, @ModelAttribute TripUpdateForm tripUpdateForm, Model model) {
 		Trip trip = tripService.findOne(trip_id);
 		List<Itinerary> itinerary = itineraryService.findAllByTripId(trip_id);
-		
-		tripUpdateForm.setItineraryUpdateForm(itinerary);
-		model.addAttribute("tripUpdateForm", new TripUpdateForm(trip));
+		List<ItineraryUpdateForm> itineraryForms = new ArrayList<ItineraryUpdateForm>();
+		for (int i = 0; i < itinerary.size(); ++i) {
+			ItineraryUpdateForm itineraryForm = new ItineraryUpdateForm();
+			itineraryForm.setItinerary_id(itinerary.get(i).getItinerary_id());
+			itineraryForm.setTrip_id(itinerary.get(i).getTrip_id());
+			itineraryForm.setItinerary_date(itinerary.get(i).getItinerary_date());
+			itineraryForm.setStart_at(itinerary.get(i).getStart_at());
+			itineraryForm.setEnd_at(itinerary.get(i).getEnd_at());
+			itineraryForm.setLocation(itinerary.get(i).getLocation());
+			itineraryForm.setNote(itinerary.get(i).getNote());
+			itineraryForm.setAmount(itinerary.get(i).getAmount());
+			itineraryForms.add(itineraryForm);
+		}
+		TripUpdateForm tripForms = new TripUpdateForm();
+		tripForms.setTrip_id(trip.getTrip_id());
+		tripForms.setTitle(trip.getTitle());
+		tripForms.setDestination(trip.getDestination());
+		tripForms.setTravel_days(trip.getTravel_days());
+		tripForms.setCurrency(trip.getCurrency());
+		tripForms.setUsername(trip.getUsername());
+		tripForms.setItineraryUpdateForm(itineraryForms);
+		tripUpdateForm.setItineraryUpdateForm(itineraryForms);
+		model.addAttribute("tripUpdateForm", tripForms);
 		return EDIT_TRIP_TEMPLATE_PATH;
 	}
 	
+	@PostMapping("update_trip")
+	public String update(@Validated @ModelAttribute TripUpdateForm tripUpdateForm, final BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return EDIT_TRIP_TEMPLATE_PATH;
+		}
+		Trip trip = tripService.findOne(tripUpdateForm.getTrip_id());
+		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+		trip.setUpdated_at(currentTime);
+		trip.setCreated_at(trip.getCreated_at());
+		trip.setTrip_id(tripUpdateForm.getTrip_id());
+		trip.setUsername(tripUpdateForm.getUsername());
+		trip.setTitle(tripUpdateForm.getTitle());
+		trip.setDestination(tripUpdateForm.getDestination());
+		trip.setTravel_days(tripUpdateForm.getTravel_days());
+		trip.setCurrency(tripUpdateForm.getCurrency());
+		Trip trip2 =  tripService.save(trip);
+		List<ItineraryUpdateForm> itineraryUpdateForm = tripUpdateForm.getItineraryUpdateForm();
+		for (ItineraryUpdateForm itineraryForm : itineraryUpdateForm) { 
+			Itinerary itinerary = new Itinerary();
+			Timestamp currentTime2 = new Timestamp(System.currentTimeMillis());
+			itinerary.setUpdated_at(currentTime2);
+			itinerary.setCreated_at(trip2.getCreated_at());
+			itinerary.setTrip_id(trip2.getTrip_id());
+			itinerary.setUsername(tripUpdateForm.getUsername());
+			itinerary.setItinerary_date(itineraryForm.getItinerary_date());
+			itinerary.setStart_at(itineraryForm.getStart_at());
+			itinerary.setEnd_at(itineraryForm.getEnd_at());
+			itinerary.setLocation(itineraryForm.getLocation());
+			itinerary.setNote(itineraryForm.getNote());
+			itinerary.setAmount(itineraryForm.getAmount());
+			itinerary.setItinerary_id(itineraryForm.getItinerary_id());
+			itineraryService.save(itinerary);
+		}
+		return REDIRECT_SHOW_URL;
+	}
 }
