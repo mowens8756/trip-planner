@@ -35,4 +35,12 @@ public interface TripService {
 	 * @return ユーザー名に紐付くtripsテーブルの全件データ
 	 */
 	public List<Trip> findAllByUsername(String username);
+	
+	/**
+     * Trip IDに紐付くTrip(Entity)クラスのデータを削除する.
+     *
+     * @param trip_id Trip ID
+     */
+    public void delete(Integer trip_id);
+
 }

@@ -12,12 +12,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.form.ItineraryCreateForm;
+import com.example.demo.form.ItineraryUpdateForm;
 import com.example.demo.form.TripCreateForm;
+import com.example.demo.form.TripUpdateForm;
 import com.example.demo.model.Itinerary;
+import com.example.demo.model.SiteUser;
 import com.example.demo.model.Trip;
 import com.example.demo.model.impl.UserDetailsImpl;
 import com.example.demo.service.ItineraryService;
@@ -34,7 +38,8 @@ public class TripController {
 	
 	private final String NEW_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/new_trip";
 	private final String SHOW_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/show_trip";
-	private final String REDIRECT_HOME_URL = "redirect:/trip_planner/home";
+	private final String EDIT_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/edit_trip";
+	private final String REDIRECT_SHOW_URL = "redirect:/trip_planner/trip_plan/show_trip";
 	
 	@GetMapping("new_trip")
 	public String plan(@ModelAttribute TripCreateForm tripCreateForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -78,12 +83,31 @@ public class TripController {
 			itinerary.setAmount(itineraryForm.getAmount());
 			itineraryService.save(itinerary);
 		}
-		return REDIRECT_HOME_URL;
+		return REDIRECT_SHOW_URL;
 	}
+	
 	@GetMapping("show_trip")
 	public String showTripList(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 		String username = userDetails.getUsername();
 		model.addAttribute("trips", tripService.findAllByUsername(username));
 		return SHOW_TRIP_TEMPLATE_PATH;
 	}
+	
+	@PostMapping("delete/{trip_id}")
+	public String destroy(@PathVariable Integer trip_id) {
+		itineraryService.delete(trip_id);
+		tripService.delete(trip_id);
+		return REDIRECT_SHOW_URL;
+	}
+
+	@GetMapping("edit/{trip_id}")
+	public String edit(@PathVariable Integer trip_id, @ModelAttribute TripUpdateForm tripUpdateForm, Model model) {
+		Trip trip = tripService.findOne(trip_id);
+		List<Itinerary> itinerary = itineraryService.findAllByTripId(trip_id);
+		
+		tripUpdateForm.setItineraryUpdateForm(itinerary);
+		model.addAttribute("tripUpdateForm", new TripUpdateForm(trip));
+		return EDIT_TRIP_TEMPLATE_PATH;
+	}
+	
 }

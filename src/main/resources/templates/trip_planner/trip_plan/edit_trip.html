@@ -22,7 +22,7 @@
 						<h1 class="h4 text-secondary-900 mt-4">新規作成</h1>
 					</div>
 
-					<form th:action="@{/trip_planner/trip_plan/create_trip}" th:object="${tripCreateForm}" method="post" novalidate>
+					<form th:action="@{/trip_planner/trip_plan/update_trip}" th:object="${tripUpdateForm}" method="post" novalidate>
 						<div class="form-group">
 							<input type="hidden" class="form-control" th:field="*{username}">
 						</div>
@@ -79,36 +79,36 @@
 								</th></tr>
 							</thead>
 							<tbody>
-								<tr th:each="itinerary, stat : *{itineraryCreateForm}">
+								<tr th:each="itinerary, stat : *{itineraryUpdateForm}">
 									<th>
-										<input type="date" class="form-control" th:field="*{itineraryCreateForm[__${stat.index}__].itinerary_date}" th:value="${itinerary.itinerary_date}">
-										<div th:if="${#fields.hasErrors('itineraryCreateForm[' + stat.index + '].itinerary_date')}" th:errors="*{itineraryCreateForm[__${stat.index}__].itinerary_date}"></div>
+										<input type="date" class="form-control" th:field="*{itineraryUpdateForm[__${stat.index}__].itinerary_date}" th:value="${itinerary.itinerary_date}">
+										<div th:if="${#fields.hasErrors('itineraryUpdateForm[' + stat.index + '].itinerary_date')}" th:errors="*{itineraryUpdateForm[__${stat.index}__].itinerary_date}"></div>
 									</th>
 									<th>
-										<input type="time" class="form-control" th:field="*{itineraryCreateForm[__${stat.index}__].start_at}" th:value="${itinerary.start_at}">
-										<div th:if="${#fields.hasErrors('itineraryCreateForm[' + stat.index + '].start_at')}" th:errors="*{itineraryCreateForm[__${stat.index}__].start_at}"></div>
+										<input type="time" class="form-control" th:field="*{itineraryUpdateForm[__${stat.index}__].start_at}" th:value="${itinerary.start_at}">
+										<div th:if="${#fields.hasErrors('itineraryUpdateForm[' + stat.index + '].start_at')}" th:errors="*{itineraryUpdateForm[__${stat.index}__].start_at}"></div>
 									</th>
 									<th>
-										<input type="time" class="form-control" th:field="*{itineraryCreateForm[__${stat.index}__].end_at}" th:value="${itinerary.end_at}">
-										<div th:if="${#fields.hasErrors('itineraryCreateForm[' + stat.index + '].end_at')}" th:errors="*{itineraryCreateForm[__${stat.index}__].end_at}"></div>
+										<input type="time" class="form-control" th:field="*{itineraryUpdateForm[__${stat.index}__].end_at}" th:value="${itinerary.end_at}">
+										<div th:if="${#fields.hasErrors('itineraryUpdateForm[' + stat.index + '].end_at')}" th:errors="*{itineraryUpdateForm[__${stat.index}__].end_at}"></div>
 									</th>
 									<th>
-										<input type="text" class="form-control" th:value="${itinerary.location}" th:field="*{itineraryCreateForm[__${stat.index}__].location}">
-										<div th:if="${#fields.hasErrors('itineraryCreateForm[' + stat.index + '].location')}" th:errors="*{itineraryCreateForm[__${stat.index}__].location}"></div>
+										<input type="text" class="form-control" th:value="${itinerary.location}" th:field="*{itineraryUpdateForm[__${stat.index}__].location}">
+										<div th:if="${#fields.hasErrors('itineraryUpdateForm[' + stat.index + '].location')}" th:errors="*{itineraryUpdateForm[__${stat.index}__].location}"></div>
 									</th>
 									<th>
-										<textarea class="form-control" th:value="${itinerary.note}" rows="2" th:field="*{itineraryCreateForm[__${stat.index}__].note}"></textarea>
-										<div th:if="${#fields.hasErrors('itineraryCreateForm[' + stat.index + '].note')}" th:errors="*{itineraryCreateForm[__${stat.index}__].note}"></div>
+										<textarea class="form-control" th:value="${itinerary.note}" rows="2" th:field="*{itineraryUpdateForm[__${stat.index}__].note}"></textarea>
+										<div th:if="${#fields.hasErrors('itineraryUpdateForm[' + stat.index + '].note')}" th:errors="*{itineraryUpdateForm[__${stat.index}__].note}"></div>
 									</th>
 									<th>
-										<input type="text" class="form-control" th:field="*{itineraryCreateForm[__${stat.index}__].amount}" th:value="${itinerary.amount}">
-										<div th:if="${#fields.hasErrors('itineraryCreateForm[' + stat.index + '].amount')}" th:errors="*{itineraryCreateForm[__${stat.index}__].amount}"></div>
+										<input type="text" class="form-control" th:field="*{itineraryUpdateForm[__${stat.index}__].amount}" th:value="${itinerary.amount}">
+										<div th:if="${#fields.hasErrors('itineraryUpdateForm[' + stat.index + '].amount')}" th:errors="*{itineraryUpdateForm[__${stat.index}__].amount}"></div>
 									</th>
 								</tr>
 							</tbody>
 						</table>
 						<div class="float-left">
-							<button type="submit" class="btn btn-success" th:href="@{/trip_planner/trip_plan/create_trip}">
+							<button type="submit" class="btn btn-success" th:href="@{/trip_planner/trip_plan/update_trip}">
 								保存
 							</button>
 						</div>

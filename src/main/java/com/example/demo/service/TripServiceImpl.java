@@ -56,4 +56,15 @@ public class TripServiceImpl implements TripService{
 	public List<Trip> findAllByUsername(String username){
 		return repository.findAllByUsername(username);
 	}	
+	
+	/**
+     * Trip IDに紐付くItinerary(Entity)クラスのデータを削除する.
+     *
+     * @param trip_id Trip ID
+     */
+    @Transactional
+    public void delete(Integer trip_id){
+        repository.deleteByTripId(trip_id);
+    }
+	
 }

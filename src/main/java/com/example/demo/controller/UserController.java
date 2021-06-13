@@ -89,7 +89,6 @@ public class UserController {
 	@GetMapping("edit/{username}")
 	public String edit(@PathVariable String username, Model model) {
 		SiteUser user = service.findOne(username);
-
 		model.addAttribute("userUpdateForm", new UserUpdateForm(user));
 		return EDIT_TEMPLATE_PATH;
 	}

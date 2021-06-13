@@ -13,12 +13,12 @@ public interface ItineraryService {
 	public List<Itinerary> findAll();
 
 	/**
-	 * itinerary_idに紐付くItinerary(Entity)クラスのデータを1件取得する.
+	 * trip_idに紐付くItinerary(Entity)クラスのデータを全件取得する.
 	 *
-	 * @param itinerary_id
-	 * @return 該当した1件のデータ
+	 * @param trip_id
+	 * @return 該当した全件のデータ
 	 */
-	public Itinerary findOne(Integer itinerary_id);
+	public List<Itinerary> findAllByTripId(Integer trip_id);
 
 	/**
 	 * Itinerary(Entity)クラスのデータを保存する.
@@ -27,4 +27,12 @@ public interface ItineraryService {
 	 * @return 保存したItinerary(Entity)クラス
 	 */
 	public Itinerary save(Itinerary itinerary);
+	
+	/**
+     * Trip IDに紐付くItinerary(Entity)クラスのデータを削除する.
+     *
+     * @param trip_id Trip ID
+     */
+    public void delete(Integer trip_id);
+
 }

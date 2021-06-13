@@ -27,13 +27,13 @@ public class ItineraryServiceImpl implements ItineraryService{
 	}
 
 	/**
-	 * itinerary_idに紐付くItinerary(Entity)クラスのデータを1件取得する.
+	 * trip_idに紐付くItinerary(Entity)クラスのデータを全件取得する.
 	 *
-	 * @param itinerary_id id
-	 * @return 該当した1件のデータ
+	 * @param trip_id id
+	 * @return 該当した全件のデータ
 	 */
-	public Itinerary findOne(Integer itinerary_id) {
-		return repository.getOne(itinerary_id);
+	public List<Itinerary> findAllByTripId(Integer trip_id) {
+		return repository.findByTripId(trip_id);
 	}
 
 	/**
@@ -46,5 +46,15 @@ public class ItineraryServiceImpl implements ItineraryService{
 	public Itinerary save(Itinerary itinerary) {
 		return repository.save(itinerary);
 	}
+	
+	/**
+     * Trip IDに紐付くItinerary(Entity)クラスのデータを削除する.
+     *
+     * @param trip_id Trip ID
+     */
+    @Transactional
+    public void delete(Integer trip_id){
+        repository.deleteByTripId(trip_id);
+    }
 
 }
