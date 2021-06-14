@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<th:block th:insert="trip_planner/fragments/base :: header"></th:block>
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<th:block th:insert="trip_planner/fragments/sidebar :: sidebar"></th:block>
+
+		<!-- Main -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<div class="container-fluid">
+
+					<!-- Details -->
+					<div class="text-center">
+						<h1 class="h4 text-secondary-900 mt-4">旅程詳細</h1>
+					</div>
+					<br>
+					<div class="text-left">
+							<h2 class="h5 text-secondary-900">目的地: <th:block th:text="${trip.destination}"></th:block> </h2>
+							<h2 class="h5 text-secondary-900"><th:block th:text="${trip.travel_days}"></th:block> 日間</h2>
+					</div>
+					<br>
+					<div class="text-center">
+							<h2 class="h5 text-secondary-900 text-decoration-underline"><th:block th:text="${trip.title}"></th:block></h2>
+					</div>
+
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>日付</th>
+									<th>開始時間</th>
+									<th>終了時間</th>
+									<th>場所</th>
+									<th>備考</th>
+									<th>金額</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="itinerary, stat : ${itinerary}" th:object="${itinerary}">
+									<td th:text="*{itinerary_date}"></td>
+									<td th:text="*{start_at}"></td>
+									<td th:text="*{end_at}"></td>
+									<td th:text="*{location}"></td>
+									<td th:text="*{note}"></td>
+									<td th:text="*{amount}"></td>
+								</tr>
+							</tbody>
+						</table>
+						<br>
+						<div class="text-right">
+							<h2 class="h5 text-secondary-900">合計金額: 
+							<th:block th:text="${totalAmount}"></th:block> 
+							<th:block th:text="${trip.currency}"></th:block> 
+							</h2>
+						</div>
+					<!-- End of Details -->
+
+				</div>
+			</div>
+		</div>
+		<!-- End of Main -->
+	</div>
+
+	<th:block th:insert="trip_planner/fragments/base :: scripts"></th:block>
+
+
+</body>
+
+</html>

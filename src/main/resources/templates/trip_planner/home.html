@@ -34,6 +34,7 @@
 											<th>作成者</th>
 											<th>作成日</th>
 											<th>更新日</th>
+											<th>詳細</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -44,6 +45,9 @@
 											<td th:text="*{username}"></td>
 											<td th:text="*{#dates.format(created_at, 'yyyy/MM/dd HH:mm')}"></td>
 											<td th:text="*{#dates.format(updated_at, 'yyyy/MM/dd HH:mm')}"></td>
+											<td>
+												<a role="button" class="btn btn-outline-secondary btn-sm" th:href="@{/trip_planner/trip_plan/show/{trip_id}(trip_id=*{trip_id})}">詳細</a>
+											</td>
 										</tr>
 									</tbody>
 								</table>

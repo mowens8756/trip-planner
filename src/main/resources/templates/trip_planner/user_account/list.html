@@ -50,7 +50,7 @@
 												<div th:switch="*{isActive}">
 												<div th:case="false" class="text-center">削除済</div>
 												<div th:case="true" class="dropdown text-center">
-													<button class="btn btn-outline-secondary dropdown-toggle" type="button" th:id="|dropdownMenuButton-*{username}|" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" th:id="|dropdownMenuButton-*{username}|" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 														操作選択
 													</button>
 													<div class="dropdown-menu" th:aria-labelledby="|dropdownMenuButton-*{username}|">

@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class TripController {
 	private final String NEW_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/new_trip";
 	private final String SHOW_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/show_trip";
 	private final String EDIT_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/edit_trip";
+	private final String SHOW_ITINERARY_TEMPLATE_PATH = "/trip_planner/trip_plan/show_itinerary";
 	private final String REDIRECT_SHOW_URL = "redirect:/trip_planner/trip_plan/show_trip";
 	
 	@GetMapping("new_trip")
@@ -107,7 +109,6 @@ public class TripController {
 		for (int i = 0; i < itinerary.size(); ++i) {
 			ItineraryUpdateForm itineraryForm = new ItineraryUpdateForm();
 			itineraryForm.setItinerary_id(itinerary.get(i).getItinerary_id());
-			itineraryForm.setTrip_id(itinerary.get(i).getTrip_id());
 			itineraryForm.setItinerary_date(itinerary.get(i).getItinerary_date());
 			itineraryForm.setStart_at(itinerary.get(i).getStart_at());
 			itineraryForm.setEnd_at(itinerary.get(i).getEnd_at());
@@ -163,5 +164,41 @@ public class TripController {
 			itineraryService.save(itinerary);
 		}
 		return REDIRECT_SHOW_URL;
+	}
+	
+	@GetMapping("show/{trip_id}")
+	public String show(@PathVariable Integer trip_id, Model model) {
+		Trip tripWithId = tripService.findOne(trip_id);
+		Trip trip = new Trip();
+		trip.setTrip_id(tripWithId.getTrip_id());
+		trip.setTitle(tripWithId.getTitle());
+		trip.setDestination(tripWithId.getDestination());
+		trip.setTravel_days(tripWithId.getTravel_days());
+		trip.setCurrency(tripWithId.getCurrency());
+		trip.setUsername(tripWithId.getUsername());
+		model.addAttribute("trip", trip);
+		List<Itinerary> itineraryWithId = itineraryService.findAllByTripId(trip_id);
+		List<Itinerary> itineraryList = new ArrayList<Itinerary>();
+		for (int i = 0; i < itineraryWithId.size(); ++i) {
+			Itinerary itinerary = new Itinerary();
+			itinerary.setItinerary_id(itineraryWithId.get(i).getItinerary_id());
+			itinerary.setItinerary_date(itineraryWithId.get(i).getItinerary_date());
+			itinerary.setStart_at(itineraryWithId.get(i).getStart_at());
+			itinerary.setEnd_at(itineraryWithId.get(i).getEnd_at());
+			itinerary.setLocation(itineraryWithId.get(i).getLocation());
+			itinerary.setNote(itineraryWithId.get(i).getNote());
+			itinerary.setAmount(itineraryWithId.get(i).getAmount());
+			itineraryList.add(itinerary);
+		}
+		model.addAttribute("itinerary", itineraryList);
+		BigDecimal totalAmount = new BigDecimal("0");
+		for (int i = 0; i < itineraryWithId.size(); ++i) {
+			BigDecimal amount = itineraryWithId.get(i).getAmount();
+			if(amount != null) {
+				totalAmount = totalAmount.add(new BigDecimal("amount"));
+			}
+		}
+		model.addAttribute("totalAmount", totalAmount.toString());
+		return SHOW_ITINERARY_TEMPLATE_PATH;
 	}
 }

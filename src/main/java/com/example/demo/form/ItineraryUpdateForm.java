@@ -19,9 +19,6 @@ public class ItineraryUpdateForm implements Serializable{
 	@NotNull
 	private Integer itinerary_id;
 	
-	@NotNull
-	private Integer trip_id;
-	
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private String itinerary_date;
 
