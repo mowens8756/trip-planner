@@ -39,7 +39,7 @@ public class LoginController {
 
 	@RequestMapping("/trip_planner/home")
 	public String home(Model model) {
-		model.addAttribute("trips", tripService.findAll());
+		model.addAttribute("trips", tripService.findAllPublic());
 		return HOME_URL;
 	}
 

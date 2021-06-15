@@ -43,4 +43,7 @@ public class Trip {
 	@Column(name = "updated_at", nullable = false)
 	private Timestamp updated_at;
 	
+	@Column(name = "is_public", nullable = false)
+	private boolean is_public = false;
+	
 }

@@ -42,5 +42,26 @@ public interface TripService {
      * @param trip_id Trip ID
      */
     public void delete(Integer trip_id);
+    
+    /**
+	 * PublicのTrip(Entity)クラスのデータを全件取得する.
+	 *
+	 * @return Publicのtripsテーブルの全件データ
+	 */
+	public List<Trip> findAllPublic();
+	
+	/**
+     * Trip IDに紐付くTrip(Entity)クラスのデータを公開する.
+     *
+     * @param trip_id Trip ID
+     */
+    public void setPublic(Integer trip_id);
+    
+    /**
+     * Trip IDに紐付くTrip(Entity)クラスのデータを非公開にする.
+     *
+     * @param trip_id Trip ID
+     */
+    public void setPrivate(Integer trip_id);
 
 }

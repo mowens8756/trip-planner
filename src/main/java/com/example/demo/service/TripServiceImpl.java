@@ -67,4 +67,32 @@ public class TripServiceImpl implements TripService{
         repository.deleteByTripId(trip_id);
     }
 	
+    /**
+	 * PublicのTrip(Entity)クラスのデータを全件取得する.
+	 *
+	 * @return Publicのtripsテーブルの全件データ
+	 */
+	public List<Trip> findAllPublic(){
+		return repository.findAllPublic();
+	}	
+	
+	/**
+     * Trip IDに紐付くTrip(Entity)クラスのデータを公開する.
+     *
+     * @param trip_id Trip ID
+     */
+	@Transactional
+    public void setPublic(Integer trip_id) {
+		repository.setPublicByTripId(trip_id);
+	}
+	
+	/**
+     * Trip IDに紐付くTrip(Entity)クラスのデータを非公開にする.
+     *
+     * @param trip_id Trip ID
+     */
+	@Transactional
+    public void setPrivate(Integer trip_id) {
+		repository.setPrivateByTripId(trip_id);
+	}
 }

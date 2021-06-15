@@ -47,7 +47,7 @@ public class TripController {
 	public String plan(@ModelAttribute TripCreateForm tripCreateForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 		tripCreateForm.setUsername(userDetails.getUsername());
 		List<ItineraryCreateForm> itinerary = new ArrayList<ItineraryCreateForm>();
-		for (int i = 0; i < 5; ++i) {
+		for (int i = 0; i < 10; ++i) {
 			itinerary.add(new ItineraryCreateForm());
 		}
 		tripCreateForm.setItineraryCreateForm(itinerary);
@@ -205,5 +205,17 @@ public class TripController {
 			model.addAttribute("totalAmount", totalAmount.setScale(2, RoundingMode.HALF_UP));
 		}
 		return SHOW_ITINERARY_TEMPLATE_PATH;
+	}
+	
+	@PostMapping("set_public/{trip_id}")
+	public String setPublic(@PathVariable Integer trip_id) {
+		tripService.setPublic(trip_id);
+		return REDIRECT_SHOW_URL;
+	}
+	
+	@PostMapping("set_private/{trip_id}")
+	public String setPrivate(@PathVariable Integer trip_id) {
+		tripService.setPrivate(trip_id);
+		return REDIRECT_SHOW_URL;
 	}
 }

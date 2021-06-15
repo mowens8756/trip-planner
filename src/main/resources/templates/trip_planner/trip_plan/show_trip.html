@@ -52,6 +52,12 @@
 												<div class="dropdown-menu" th:aria-labelledby="|dropdownMenuButton-*{trip_id}|">
 													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/edit/{trip_id}(trip_id=*{trip_id})}">編集</a>
 													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/show/{trip_id}(trip_id=*{trip_id})}">詳細</a>
+													<form th:action="@{/trip_planner/trip_plan/set_public/{trip_id}(trip_id=*{trip_id})}" th:method="post">
+														<input type="submit" class="dropdown-item" value="公開">
+													</form>	
+													<form th:action="@{/trip_planner/trip_plan/set_private/{trip_id}(trip_id=*{trip_id})}" th:method="post">
+														<input type="submit" class="dropdown-item" value="非公開">
+													</form>	
 													<form th:action="@{/trip_planner/trip_plan/delete/{trip_id}(trip_id=*{trip_id})}" th:method="post">
 														<input type="submit" class="dropdown-item" value="削除">
 													</form>

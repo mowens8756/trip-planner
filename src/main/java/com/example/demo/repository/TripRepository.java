@@ -20,4 +20,18 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
     @Transactional
     @Modifying
     void deleteByTripId(@Param("trip_id") Integer trip_id);
+	
+	@Query("SELECT t FROM Trip t WHERE t.is_public = true")
+	List<Trip> findAllPublic();
+	
+	@Query("UPDATE Trip t SET t.is_public = true WHERE t.trip_id = :trip_id")
+    @Transactional
+    @Modifying
+    void setPublicByTripId(@Param("trip_id") Integer trip_id);
+	
+	@Query("UPDATE Trip t SET t.is_public = false WHERE t.trip_id = :trip_id")
+    @Transactional
+    @Modifying
+    void setPrivateByTripId(@Param("trip_id") Integer trip_id);
+	
 }
