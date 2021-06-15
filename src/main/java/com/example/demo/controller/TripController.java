@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -191,14 +192,18 @@ public class TripController {
 			itineraryList.add(itinerary);
 		}
 		model.addAttribute("itinerary", itineraryList);
-		BigDecimal totalAmount = new BigDecimal("0");
+		BigDecimal totalAmount = new BigDecimal("0.0");
 		for (int i = 0; i < itineraryWithId.size(); ++i) {
 			BigDecimal amount = itineraryWithId.get(i).getAmount();
 			if(amount != null) {
-				totalAmount = totalAmount.add(new BigDecimal("amount"));
+				totalAmount = totalAmount.add(amount);
 			}
 		}
-		model.addAttribute("totalAmount", totalAmount.toString());
+		if(totalAmount.compareTo(BigDecimal.ZERO)==0){
+			model.addAttribute("totalAmount", totalAmount.setScale(0, RoundingMode.DOWN));
+		}else {
+			model.addAttribute("totalAmount", totalAmount.setScale(2, RoundingMode.HALF_UP));
+		}
 		return SHOW_ITINERARY_TEMPLATE_PATH;
 	}
 }
