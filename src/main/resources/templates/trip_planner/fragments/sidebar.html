@@ -24,13 +24,20 @@
 			<hr class="sidebar-divider d-none d-md-block">
 
 			<!-- Nav Item -->
-			<li class="nav-item active">
-				 <a class="nav-link pt-2"
-					th:href="@{/trip_planner/user_account/show/{username}(username=${#authentication.name})}">
+			<th:block th:switch="${#authorization.expression('!isAnonymous()')}">
+			<li th:case="true" class="nav-item active">
+				<a class="nav-link pt-2" th:href="@{/trip_planner/user_account/show/{username}(username=${#authentication.name})}">
 					<i class="fas fa-user"></i>
-					<span sec:authentication="name"></span>
+					<span th:case="true" sec:authentication="name"></span>
 				</a>
 			</li>
+			<li th:case="false" class="nav-item active">
+				<a class="nav-link pt-2" th:href="@{/trip_planner/user_account/register}">
+					<i class="fas fa-user"></i>
+					<span>新規登録</span>
+				</a>
+			</li>
+			</th:block>
 			<th:block sec:authorize="hasAuthority('ADMIN')">
 				<li class="nav-item active">
 					<a class="nav-link pt-2" th:href="@{/trip_planner/user_account/admin/list}">
@@ -39,18 +46,34 @@
 					</a>
 				</li>
 			</th:block>
-			<li class="nav-item active">
+			<th:block th:switch="${#authorization.expression('!isAnonymous()')}">
+			<li th:case="true" class="nav-item active">
 				<a class="nav-link pt-2" th:href="@{/trip_planner/trip_plan/new_trip}">
 					<i class="fas fa-calendar-plus"></i>
 					<span>新規作成</span>
 				</a>
 			</li>
-			<li class="nav-item active">
+			<li th:case="false" class="nav-item active">
+				<a class="nav-link pt-2" th:href="@{/trip_planner/login}">
+					<i class="fas fa-calendar-plus"></i>
+					<span>新規作成</span>
+				</a>
+			</li>
+			</th:block>
+			<th:block th:switch="${#authorization.expression('!isAnonymous()')}">
+			<li th:case="true" class="nav-item active">
 				<a class="nav-link pt-2" th:href="@{/trip_planner/trip_plan/show_trip}">
 					<i class="fas fa-calendar"></i>
 					<span>旅程表</span>
 				</a>
 			</li>
+			<li th:case="false" class="nav-item active">
+				<a class="nav-link pt-2" th:href="@{/trip_planner/login}">
+					<i class="fas fa-calendar"></i>
+					<span>旅程表</span>
+				</a>
+			</li>
+			</th:block>
 			<!-- Divider -->
 			<hr class="sidebar-divider d-none d-md-block">
 

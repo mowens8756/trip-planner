@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.example.demo.service.UserDetailsServiceImpl;
+import com.example.demo.util.Role;
 
 /**
  * 認証・認可を設定するクラス.
@@ -71,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// ログイン処理の認証ルールを設定
 		http.authorizeRequests()
 				.antMatchers("/**").permitAll()
-				//.antMatchers("/trip_planner/user_account/admin/**").hasAuthority(Role.ADMIN.toString())
+				.antMatchers("/trip_planner/user_account/admin/**").hasAuthority(Role.ADMIN.toString())
 				.anyRequest().authenticated() // それ以外は認証が必要
 				.and().sessionManagement().sessionFixation().none().and().formLogin().loginPage("/trip_planner/login")
 				.loginProcessingUrl("/trip_planner/login") // ログインフォームのアクションに指定したURL[action="@{/login}"]を設定
@@ -80,7 +81,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.successForwardUrl("/trip_planner/success") // ログイン成功時に遷移するURL
 				.failureUrl("/trip_planner/login?error") // ログイン失敗時に遷移するURL
 				.permitAll().and().logout().logoutUrl("/trip_planner/logout").permitAll()
-				.logoutRequestMatcher(new AntPathRequestMatcher("/trip_planner/logout"));
+				.logoutRequestMatcher(new AntPathRequestMatcher("/trip_planner/logout"))
+				.and().rememberMe();
 	}
 
 }
