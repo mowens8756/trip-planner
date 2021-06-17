@@ -6,3 +6,30 @@
   background-position: center;
   background-size: contain;
 }
+
+h2.image{
+	color: white;
+	font-size: 500px;
+	float: left;
+	margin-left: 150px;
+	margin-top: 50px;
+}
+
+.bg-gradient-landing{
+	background: rgb(35,235,255);
+	background: linear-gradient(90deg, rgba(35,235,255,1) 12%, rgba(50,203,150,1) 54%);
+}
+
+h1.landing-title{
+	color: white;
+	font-size: 90px;
+	font-weight: bold;
+	float: right;
+	margin-right: 110px;
+	margin-top: 250px;
+}
+div.home-link{
+	float: right;
+	margin-right: 300px;
+	margin-top: 20px;
+}

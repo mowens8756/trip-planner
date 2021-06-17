@@ -28,7 +28,7 @@
 			<li th:case="true" class="nav-item active">
 				<a class="nav-link pt-2" th:href="@{/trip_planner/user_account/show/{username}(username=${#authentication.name})}">
 					<i class="fas fa-user"></i>
-					<span th:case="true" sec:authentication="name"></span>
+					<span sec:authentication="name"></span>
 				</a>
 			</li>
 			<li th:case="false" class="nav-item active">
@@ -74,6 +74,7 @@
 				</a>
 			</li>
 			</th:block>
+			
 			<!-- Divider -->
 			<hr class="sidebar-divider d-none d-md-block">
 

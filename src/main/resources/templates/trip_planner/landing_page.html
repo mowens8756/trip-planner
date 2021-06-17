@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+			<meta charset="UTF-8">
+			<th:block th:insert="trip_planner/fragments/base :: header"></th:block>
+	</head>
+		
+		<body class="bg-gradient-landing">
+		
+			<!-- Main -->
+			
+				<h1 class="landing-title">Trip Planner</h1>
+				<h2 class="image"><i class="fas fa-globe"></i></h2>
+				<div class="home-link">
+					<a class="btn btn-outline-light btn-lg" href="@{/trip_planner/home}" role="button">HOME</a>
+				</div>
+			<th:block th:insert="trip_planner/fragments/base :: scripts"></th:block>
+		</body>
+
+</html>
