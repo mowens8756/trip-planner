@@ -6,52 +6,42 @@
 	<th:block th:insert="trip_planner/fragments/base :: header"></th:block>
 </head>
 
-<body class="bg-gradient-success">
+<body>
 	<!-- Main -->
 	<div class="container">
 		<div class="row justify-content-center">
-			<div class="col-xl-10 col-lg-12 col-md-9">
+			<div class="col-xl-6">
 
 				<!-- Card -->
-				<div class="card o-hidden border-0 shadow-lg my-5">
-					<div class="card-body p-0">
-						<div class="row">
-							<div class="col-lg-6 d-none d-lg-block bg-login-image">
-							</div>
-							<div class="col-lg-6">
-								<div class="p-5">
+				<div class="card o-hidden border-0 my-5">
+					<div class="card-body p-5">
+						<div class="p-5">
 
 									<!-- Registration -->
 									<div class="text-center">
-										<h1 class="h4 text-secondary-900 mb-4">
-											ユーザ登録
+										<h1 class="h1 text-success mb-4">
+											<i class="fas fa-user-plus"></i>
 										</h1>
 									</div>
 
 									<form th:action="@{/trip_planner/user_account/create}" th:object="${userCreateForm}"
 										method="post" novalidate>
 										<div class="form-group">
-											<label for="username">ユーザネーム</label>
 											<input type="text" class="form-control" th:errorclass="is-invalid"
-												th:field="*{username}">
-											<div class="invalid-feedback" th:errors="*{username}">
-											</div>
+												th:field="*{username}" placeholder="ユーザネーム">
+											<div class="invalid-feedback" th:errors="*{username}"></div>
 										</div>
 
 										<div class="form-group">
-											<label for="password">パスワード</label>
 											<input type="password" class="form-control" th:errorclass="is-invalid"
-												th:field="*{password}">
-											<div class="invalid-feedback" th:errors="*{password}">
-											</div>
+												th:field="*{password}" placeholder="パスワード">
+											<div class="invalid-feedback" th:errors="*{password}"></div>
 										</div>
 
 										<div class="form-group">
-											<label for="email">メールアドレス</label>
 											<input type="email" class="form-control" th:errorclass="is-invalid"
-												th:field="*{email}">
-											<div class="invalid-feedback" th:errors="*{email}">
-											</div>
+												th:field="*{email}" placeholder="メールアドレス">
+											<div class="invalid-feedback" th:errors="*{email}"></div>
 										</div>
 
 										<button type="submit" class="btn btn-success btn-user btn-block">
@@ -60,8 +50,6 @@
 									</form>
 									<!-- End of Registration -->
 
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
