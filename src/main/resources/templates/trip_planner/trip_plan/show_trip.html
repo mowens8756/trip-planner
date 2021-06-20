@@ -34,6 +34,7 @@
 											<th>作成者</th>
 											<th>作成日</th>
 											<th>更新日</th>
+											<th>公開</th>
 											<th>操作</th>
 										</tr>
 									</thead>
@@ -45,6 +46,11 @@
 											<td th:text="*{username}"></td>
 											<td th:text="*{#dates.format(created_at, 'yyyy/MM/dd HH:mm')}"></td>
 											<td th:text="*{#dates.format(updated_at, 'yyyy/MM/dd HH:mm')}"></td>
+											<td>
+												<th:block th:switch="*{is_public}">
+													<th:block th:case="true">公開中</th:block>
+													<th:block th:case="false">非公開</th:block>
+												</th:block>
 											<td>
 												<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" th:id="|dropdownMenuButton-*{trip_id}|" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 													操作選択

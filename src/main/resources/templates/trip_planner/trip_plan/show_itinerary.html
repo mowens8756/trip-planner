@@ -19,20 +19,20 @@
 
 					<!-- Details -->
 					<div class="text-center">
-						<h1 class="h4 text-secondary-900 mt-4">旅程詳細</h1>
+						<h1 class="h4 text-success mt-4">旅程詳細</h1>
 					</div>
 						<br>
 					<div class="text-left">
-						<h2 class="h5 text-secondary-900"><th:block th:text="${trip.destination}"></th:block>  <th:block th:text="${trip.travel_days}"></th:block> 日間</h2>
+						<h2 class="h5 text-dark"><th:block th:text="${trip.destination}"></th:block>  <th:block th:text="${trip.travel_days}"></th:block> 日間</h2>
 					</div>
 						<br>
 					<div class="text-center">
-						<h2 class="h5 text-secondary"><th:block th:text="${trip.title}"></th:block></h2>
+						<h2 class="h5 text-dark"><th:block th:text="${trip.title}"></th:block></h2>
 					</div>
 						<br>
-					<table class="table table-striped">
-						<thead>
-							<tr>
+					<table class="table table-borderless">
+						<thead class="table-dordered border-bottom border-success">
+							<tr class="text-dark">
 								<th>日付</th>
 								<th>開始時間</th>
 								<th>終了時間</th>
@@ -41,7 +41,7 @@
 								<th>金額</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody class="text-dark">
 							<tr th:each="itinerary, stat : ${itinerary}" th:object="${itinerary}">
 								<td th:text="*{itinerary_date}"></td>
 								<td th:text="*{start_at}"></td>
@@ -54,7 +54,7 @@
 					</table>
 						<br>
 					<div class="text-right">
-						<h2 class="h5 text-secondary-900">合計金額: 
+						<h2 class="h5 text-dark">合計金額: 
 							<th:block th:text="${totalAmount}"></th:block> 
 							<th:block th:text="${T(com.example.demo.util.Currency).CURRENCIES.get(trip.currency)}"></th:block> 
 						</h2>

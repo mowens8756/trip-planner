@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// ログイン処理の認証ルールを設定
 		http.authorizeRequests()
-				.antMatchers("/", "/trip_planner/landing_page", "/trip_planner/home", "/trip_planner/login", "/trip_planner/error", "/trip_planner/user_account/register").permitAll()
+				.antMatchers("/", "/trip_planner/", "/trip_planner", "/trip_planner/landing_page", "/trip_planner/home", "/trip_planner/login", "/trip_planner/error", "/trip_planner/user_account/register", "/trip_planner/user_account/create", "/trip_planner/trip_plan/show/**").permitAll()
 				.antMatchers("/trip_planner/user_account/admin/**").hasAuthority(Role.ADMIN.toString())
 				.anyRequest().authenticated() // それ以外は認証が必要
 				.and().sessionManagement().sessionFixation().none().and().formLogin().loginPage("/trip_planner/login")

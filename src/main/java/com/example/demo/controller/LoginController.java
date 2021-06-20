@@ -25,6 +25,17 @@ public class LoginController {
 		return REDIRECT_LANDING_URL;
 	}
 	
+	@RequestMapping("/trip_planner/")
+	public String moveToTop() {
+		return REDIRECT_LANDING_URL;
+	}
+	
+
+	@RequestMapping("/trip_planner")
+	public String landOnTop() {
+		return REDIRECT_LANDING_URL;
+	}
+	
 	@RequestMapping("/trip_planner/landing_page")
 	public String land() {
 		return LANDING_URL;
@@ -40,12 +51,6 @@ public class LoginController {
 		return REDIRECT_HOME_URL;
 	}
 	
-
-	@RequestMapping("/trip_planner")
-	public String appName() {
-		return REDIRECT_HOME_URL;
-	}
-
 	@RequestMapping("/trip_planner/home")
 	public String home(Model model) {
 		model.addAttribute("trips", tripService.findAllPublic());

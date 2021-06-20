@@ -19,7 +19,7 @@
 
 					<!-- Registration -->
 					<div class="text-center">
-						<h1 class="h4 text-secondary-900 mt-4">新規作成</h1>
+						<h1 class="h4 text-success mt-4">編集中</h1>
 					</div>
 
 					<form th:action="@{/trip_planner/trip_plan/update_trip}" th:object="${tripUpdateForm}" method="post" novalidate>
@@ -59,7 +59,7 @@
 								<label th:for="${#ids.prev('currency')}" th:text="${currency.value}"></label>
 								</div>
 						</div>
-						<table class="table table-striped">
+						<table class="table table-borderless">
 							<thead>
 								<tr>
 									<th>
