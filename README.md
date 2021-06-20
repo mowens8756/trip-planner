@@ -44,7 +44,7 @@ Spring Boot2で作ったWebシステムのサンプルコードです。<br>
 | spring.datasource.username | データベースの接続ユーザー |
 | spring.datasource.password | 接続ユーザーのパスワード |
 
-5. Eclipseの右下のビルド表示が消えたら、プロジェクトが実行できるか、確認します<br>
+5. Eclipseの右下のビルド表示が消えたら、プロジェクトが実行できるか、確認します。<br>
 	5-1. プロジェクト・エクスプローラーから以下のファイルを探します。<br>
 	``/trip-planner/src/main/java/com.example.demo/TripPlannerApplication.java``<br>
 	5-2. PortfolioApplication.javaを右クリックし、「実行 > Spring Bootアプリケーション」を実行します。
