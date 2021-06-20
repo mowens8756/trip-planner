@@ -36,7 +36,7 @@ Spring Boot2で作ったWebシステムのサンプルコードです。<br>
 2. repositoryをcloneします。
 3. プロジェクトをクリーンします。
 4. application.propertiesをご利用のデータベース情報に変更します。<br>
-``/file_sharing/src/main/resources/application.properties``<br>
+``/trip-planner/src/main/resources/application.properties``<br>
 
 | 項目 | 設定値 |
 | ------------- | ------------- |
