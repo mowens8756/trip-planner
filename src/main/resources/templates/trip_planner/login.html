@@ -25,40 +25,40 @@
 							</div>
 								
 							<div class="alert alert-danger" th:if="${param.error}">
-								<small>ユーザネームまたはパスワードが正しくありません</small>
+								<small>You have entered the wrong username or password.</small>
 							</div>
 							<div class="alert alert-success" th:if="${param.register}">
-								<small>ユーザを新規登録しました</small>
+								<small>You have successfully been registered!</small>
 							</div>
 							<div class="alert alert-success" th:if="${param.logout}">
-								<small>ログアウトしました</small>
+								<small>You have successfully logged out.</small>
 							</div>
 
 							<form th:action="@{/trip_planner/login}" class="user" method="post">
 								<div class="form-group">
 									<input type="text" class="form-control form-control-user" name="username"
-											placeholder="ユーザネーム">
+											placeholder="Username">
 								</div>
 								<div class="form-group">
 									<input type="password" class="form-control form-control-user"
-											name="password" placeholder="パスワード">
+											name="password" placeholder="Password">
 								</div>
 								<div class="form-group">
 									<div class="custom-control custom-checkbox small">
 										<input type="checkbox" class="custom-control-input" id="remember-me"
 											name="remember-me">
 										<label class="custom-control-label" for="remember-me">
-											ログインしたままにする
+											Remember Me
 										</label>
 									</div>
 								</div>
 								<button type="submit" class="btn btn-success btn-user btn-block">
-									ログイン
+									Login
 								</button>
 							</form>
 							<hr>
 							<div class="text-center">
-								<a class="text-secondary" th:href="@{/trip_planner/user_account/register}">新規登録</a>
+								<a class="text-secondary" th:href="@{/trip_planner/user_account/register}">Sign Up?</a>
 							</div>
 							<!-- End of Login -->
 
