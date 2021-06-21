@@ -1,14 +1,13 @@
 # Trip Planner
-Spring Boot2で旅程表を共有するWebシステムのサンプルコードです。<br>
-ログイン認証（MySQLへのユーザー照合）、データの登録/更新/削除/ダウンロードといった基本的な操作が含まれています。
+Spring Boot2で旅程表を共有するWebシステムのポートフォリオです。<br>
+ログイン認証（MySQLへのユーザー照合）、データの登録/更新/削除といった基本的な操作が含まれています。
 
 ## Description
-Spring Boot2で作ったWebシステムのサンプルコードです。<br>
-本サンプルコードは、HTML/CSS、Java、Spring MVC・Spring Data JPA・Spring Securityについて学んだことの実践を目的としています。<br>
-そのため、例外処理のハンドリングなど本来実装すべき処理を一部実装していませんので、ご容赦ください。<br>
+Spring Boot2で作ったWebシステムのポートフォリオです。<br>
+本ポートフォリオは、HTML/CSS、Java、Spring MVC・Spring Data JPA・Spring Securityについて学んだことの実践を目的としています。<br>
 
 ## Demo
-
+[![Image from Gyazo](https://i.gyazo.com/ea18e171b5d50378d1f9b2c49b8b69eb.gif)](https://i.gyazo.com/ea18e171b5d50378d1f9b2c49b8b69eb)
 
 ## Dependency
 - Java SE Development Kit 11
@@ -49,10 +48,9 @@ Spring Boot2で作ったWebシステムのサンプルコードです。<br>
 	``/trip-planner/src/main/java/com.example.demo/TripPlannerApplication.java``<br>
 	5-2. PortfolioApplication.javaを右クリックし、「実行 > Spring Bootアプリケーション」を実行します。
 6. ブラウザから以下のURLにアクセスします。<br>
-``http://localhost:8080/trip_planner``
-7. 「HOME」ボタンをクリックします。
-8. 「新規登録」ボタンをクリックします。
-9. ユーザー情報に以下の内容を入力し、「登録」ボタンをクリックします。<br>
+``http://localhost:8080/trip_planner/login``
+7. 「新規登録」ボタンをクリックします。
+8. ユーザー情報に以下の内容を入力し、「登録」ボタンをクリックします。<br>
 
 | 項目 | 設定値 |
 | ------------- | ------------- |
@@ -61,7 +59,7 @@ Spring Boot2で作ったWebシステムのサンプルコードです。<br>
 | メールアドレス | メールアドレス |
 
 ## Usage
-1. 以下のURLに直接アクセスするか、ログインしていない状態のHOME画面にて「新規作成」または「旅程表」をクリック、または、新規ユーザー登録をすると以下ログインURLへ遷移します。<br>
+1. 以下のURLにアクセスします。<br>
 ``http://localhost:8080/trip_planner/login``
 2. ユーザー名、パスワードを入力し、ログインします。
 
