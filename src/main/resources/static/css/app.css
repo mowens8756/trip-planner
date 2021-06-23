@@ -8,11 +8,6 @@ h2.image{
 	margin-top: 50px;
 }
 
-.bg-gradient-landing{
-	background: rgb(2,117,216);
-	background: linear-gradient(0deg, rgba(2,117,216,1) 0%, rgba(64,188,142,1) 50%, rgba(92,184,92,1) 100%);
-}
-
 h1.landing-title{
 	color: white;
 	font-size: 90px;

@@ -56,8 +56,8 @@
 													操作選択
 												</button>
 												<div class="dropdown-menu" th:aria-labelledby="|dropdownMenuButton-*{trip_id}|">
-													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/edit/{trip_id}(trip_id=*{trip_id})}">編集</a>
 													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/show/{trip_id}(trip_id=*{trip_id})}">詳細</a>
+													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/edit/{trip_id}(trip_id=*{trip_id})}">編集</a>
 													<form th:action="@{/trip_planner/trip_plan/set_public/{trip_id}(trip_id=*{trip_id})}" th:method="post">
 														<input type="submit" class="dropdown-item" value="公開">
 													</form>	
