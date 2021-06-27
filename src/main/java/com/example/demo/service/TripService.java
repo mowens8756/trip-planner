@@ -37,6 +37,14 @@ public interface TripService {
 	public List<Trip> findAllByUsername(String username);
 	
 	/**
+	 * ユーザー名が含まれるTrip(Entity)クラスのデータを全件取得する.
+	 *
+	 * @param username ユーザー名
+	 * @return Access(Entity)クラスにユーザー名が含まれるtripsテーブルの全件データ
+	 */
+	public List<Trip> findAllShared(String username);
+	
+	/**
      * Trip IDに紐付くTrip(Entity)クラスのデータを削除する.
      *
      * @param trip_id Trip ID

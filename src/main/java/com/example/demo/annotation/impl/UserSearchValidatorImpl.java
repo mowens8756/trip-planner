@@ -1,4 +1,4 @@
-package com.example.demo.annotation;
+package com.example.demo.annotation.impl;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -6,23 +6,24 @@ import javax.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.example.demo.annotation.UserSearch;
 import com.example.demo.service.UserService;
 
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * CustomCheckの実装クラス.
+ * UserSearchの実装クラス.
  */
 @Getter
 @Setter
-public class CustomCheckValidator2 implements ConstraintValidator<CustomCheck, Object> {
+public class UserSearchValidatorImpl implements ConstraintValidator<UserSearch, Object> {
 
 	/** アノテーションで指定したmessageの項目名 */
 	private String message;
 
 	/** アノテーションで指定したユーザーの項目名 */
-	private String uniqueUsername;
+	private String existingUsername;
 
 	/**
 	 * User(Entityクラス)を操作するServiceクラス.
@@ -33,12 +34,12 @@ public class CustomCheckValidator2 implements ConstraintValidator<CustomCheck, O
 	/**
 	 * 初期化処理.
 	 * 
-	 * @param annotation CustomCheckの情報
+	 * @param annotation UserSearchの情報
 	 */
 	@Override
-	public void initialize(CustomCheck annotation) {
+	public void initialize(UserSearch annotation) {
 		// アノテーションで指定したユーザーID・メッセージの項目名を取得
-		this.setUniqueUsername(annotation.uniqueUsername());
+		this.setExistingUsername(annotation.existingUsername());
 		this.setMessage(annotation.message());
 	}
 
@@ -56,20 +57,19 @@ public class CustomCheckValidator2 implements ConstraintValidator<CustomCheck, O
 		// ユーザーIDが空か判定
 		if (StringUtils.isBlank(username)) {
 			// 空の場合、後続の処理をせず終了
-			return false;
+			return true;
 		}
 
-		// ユーザー名が一意か判定
-		if (this.checkUniqueUsername(username)) {
-			// 一意の場合
+		// ユーザー名が存在するか判定
+		if (this.checkExistingUsername(username)) {
+			// 存在している場合
 			return true;
 		} else {
-			// 重複している場合
+			// 存在していない場合
 			// バリデーションエラーとして扱う
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
 			return false;
-
 		}
 	}
 
@@ -77,16 +77,16 @@ public class CustomCheckValidator2 implements ConstraintValidator<CustomCheck, O
 	 * ユーザー名が一意か、チェックするメソッド.
 	 * 
 	 * @param username ユーザー名
-	 * @return 検証結果(true：一意、false：重複)
+	 * @return 検証結果(true：存在する、false：存在しない)
 	 */
-	private boolean checkUniqueUsername(String username) {
+	private boolean checkExistingUsername(String username) {
 
 		// ユーザー名に紐付くユーザー情報の件数を取得
 		long count = userService.countByUsername(username);
 
 		// 件数を判定
-		if (count == 0) {
-			// 0件の場合、一意とする
+		if (count > 0) {
+			// 0件でない場合、存在する
 			return true;
 		}
 

@@ -18,13 +18,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.demo.form.AccessListForm;
+import com.example.demo.form.AccessUpdateForm;
 import com.example.demo.form.ItineraryCreateForm;
 import com.example.demo.form.ItineraryUpdateForm;
 import com.example.demo.form.TripCreateForm;
 import com.example.demo.form.TripUpdateForm;
+import com.example.demo.model.Access;
 import com.example.demo.model.Itinerary;
 import com.example.demo.model.Trip;
 import com.example.demo.model.impl.UserDetailsImpl;
+import com.example.demo.service.AccessService;
 import com.example.demo.service.ItineraryService;
 import com.example.demo.service.TripService;
 
@@ -36,10 +40,14 @@ public class TripController {
 	private TripService tripService;
 	@Autowired
 	private ItineraryService itineraryService;
+	@Autowired
+	private AccessService accessService;
 	
 	private final String NEW_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/new_trip";
 	private final String SHOW_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/show_trip";
+	private final String SHOW_SHARED_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/show_shared_trip";
 	private final String EDIT_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/edit_trip";
+	private final String SHARE_TRIP_TEMPLATE_PATH = "/trip_planner/trip_plan/share_trip";
 	private final String SHOW_ITINERARY_TEMPLATE_PATH = "/trip_planner/trip_plan/show_itinerary";
 	private final String REDIRECT_SHOW_URL = "redirect:/trip_planner/trip_plan/show_trip";
 	
@@ -69,6 +77,14 @@ public class TripController {
 		trip.setTravel_days(tripCreateForm.getTravel_days());
 		trip.setCurrency(tripCreateForm.getCurrency());
 		Trip trip2 =  tripService.save(trip);
+		for (int i = 0; i < 5; ++i) {
+			Access access = new Access();
+			access.setTrip_id(trip2.getTrip_id());
+			access.setUsername(trip2.getUsername());
+			access.setCreated_at(trip2.getCreated_at());
+			access.setUpdated_at(trip2.getUpdated_at());
+			accessService.save(access);
+		}
 		List<ItineraryCreateForm> itineraryCreateForm = tripCreateForm.getItineraryCreateForm();
 		for (ItineraryCreateForm itineraryForm : itineraryCreateForm) { 
 			Itinerary itinerary = new Itinerary();
@@ -217,5 +233,51 @@ public class TripController {
 	public String setPrivate(@PathVariable Integer trip_id) {
 		tripService.setPrivate(trip_id);
 		return REDIRECT_SHOW_URL;
+	}
+	
+	@GetMapping("share/{trip_id}")
+	public String share(@PathVariable Integer trip_id, @ModelAttribute AccessListForm accessListForm, Model model) {
+		List<Access> access = accessService.findAllByTripId(trip_id);
+		List<AccessUpdateForm> accessForms = new ArrayList<AccessUpdateForm>();
+		for (int i = 0; i < access.size(); ++i) {
+			AccessUpdateForm accessForm = new AccessUpdateForm();
+			accessForm.setAccess_id(access.get(i).getAccess_id());
+			accessForm.setTrip_id(access.get(i).getTrip_id());
+			accessForm.setUsername(access.get(i).getUsername());
+			accessForm.setApproved_users(access.get(i).getApproved_users());
+			accessForms.add(accessForm);
+		}
+		AccessListForm accessList = new AccessListForm();
+		accessList.setAccessUpdateForm(accessForms);
+		model.addAttribute("accessListForm", accessList);
+		return SHARE_TRIP_TEMPLATE_PATH;
+	}
+	
+	@PostMapping("update_access")
+	public String updateAccess(@Validated @ModelAttribute AccessListForm accessListForm, final BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			return SHARE_TRIP_TEMPLATE_PATH;
+		}
+		List<AccessUpdateForm> accessForms = accessListForm.getAccessUpdateForm();
+		for (AccessUpdateForm accessForm : accessForms) { 
+			Access access = new Access();
+			Trip trip = tripService.findOne(accessForm.getTrip_id());
+			Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+			access.setAccess_id(accessForm.getAccess_id());
+			access.setTrip_id(accessForm.getTrip_id());
+			access.setUsername(accessForm.getUsername());
+			access.setApproved_users(accessForm.getApproved_users());
+			access.setCreated_at(trip.getCreated_at());
+			access.setUpdated_at(currentTime);
+			accessService.save(access);
+		}
+		return REDIRECT_SHOW_URL;
+	}
+	
+	@GetMapping("show_shared_trip")
+	public String showSharedTrip(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+		String username = userDetails.getUsername();
+		model.addAttribute("trips", tripService.findAllShared(username));
+		return SHOW_SHARED_TRIP_TEMPLATE_PATH;
 	}
 }

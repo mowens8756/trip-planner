@@ -58,6 +58,16 @@ public class TripServiceImpl implements TripService{
 	}	
 	
 	/**
+	 * ユーザー名が含まれるTrip(Entity)クラスのデータを全件取得する.
+	 *
+	 * @param username ユーザー名
+	 * @return Access(Entity)クラスにユーザー名が含まれるtripsテーブルの全件データ
+	 */
+	public List<Trip> findAllShared(String username){
+		return repository.findAllShared(username);
+	}	
+	
+	/**
      * Trip IDに紐付くItinerary(Entity)クラスのデータを削除する.
      *
      * @param trip_id Trip ID

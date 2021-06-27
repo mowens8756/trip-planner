@@ -20,7 +20,7 @@
 					<div class="card my-4">
 						<div class="card-header py-3">
 							<h6 class="m-0 font-weight-bold text-success">
-								旅程表一覧
+								作成した旅程表一覧
 							</h6>
 						</div>
 						<div class="card-body">
@@ -51,6 +51,7 @@
 													<th:block th:case="true">公開中</th:block>
 													<th:block th:case="false">非公開</th:block>
 												</th:block>
+											</td>
 											<td>
 												<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" th:id="|dropdownMenuButton-*{trip_id}|" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 													操作選択
@@ -58,6 +59,7 @@
 												<div class="dropdown-menu" th:aria-labelledby="|dropdownMenuButton-*{trip_id}|">
 													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/show/{trip_id}(trip_id=*{trip_id})}">詳細</a>
 													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/edit/{trip_id}(trip_id=*{trip_id})}">編集</a>
+													<a class="dropdown-item" th:href="@{/trip_planner/trip_plan/share/{trip_id}(trip_id=*{trip_id})}">共有</a>
 													<form th:action="@{/trip_planner/trip_plan/set_public/{trip_id}(trip_id=*{trip_id})}" th:method="post">
 														<input type="submit" class="dropdown-item" value="公開">
 													</form>	

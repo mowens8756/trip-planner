@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<th:block th:insert="trip_planner/fragments/base :: header"></th:block>
+</head>
+
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+		<th:block th:insert="trip_planner/fragments/sidebar :: sidebar"></th:block>
+
+		<!-- Main -->
+		<div id="content-wrapper" class="d-flex flex-column">
+			<div id="content">
+				<div class="container-fluid">
+
+					<!-- Registration -->
+					<div class="text-center">
+						<h1 class="h4 text-success mt-4">共有</h1>
+					</div>
+					
+					<form th:action="@{/trip_planner/trip_plan/update_access}" th:object="${accessListForm}" method="post" novalidate>
+						<table class="table table-borderless">
+							<thead>
+								<tr>
+									<th>
+										<label for="approved_users">共有中のユーザー</label>
+									</th><th>
+									</th><th>
+									</th><th>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="access, stat : *{accessUpdateForm}">
+									<th>
+										<input type="text" class="form-control" th:field="*{accessUpdateForm[__${stat.index}__].approved_users}" th:value="${access.approved_users}">
+									</th>
+									<th>
+										<input type="hidden" class="form-control" th:field="*{accessUpdateForm[__${stat.index}__].access_id}" th:value="${access.access_id}">
+									</th>
+									<th>
+										<input type="hidden" class="form-control" th:field="*{accessUpdateForm[__${stat.index}__].username}" th:value="${access.username}">
+									</th>
+									<th>
+										<input type="hidden" class="form-control" th:field="*{accessUpdateForm[__${stat.index}__].trip_id}" th:value="${access.trip_id}">
+									</th>
+								</tr>
+							</tbody>
+						</table>
+						
+						<div class="float-left">
+							<button type="submit" class="btn btn-success" th:href="@{/trip_planner/trip_plan/udpate_access}">
+								保存
+							</button>
+						</div>
+
+					</form>
+					<!-- End of Registration -->
+
+
+				</div>
+			</div>
+		</div>
+		<!-- End of Main -->
+	</div>
+
+	<th:block th:insert="trip_planner/fragments/base :: scripts"></th:block>
+
+
+</body>
+
+</html>

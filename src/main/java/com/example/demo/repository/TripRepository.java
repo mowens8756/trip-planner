@@ -34,4 +34,7 @@ public interface TripRepository extends JpaRepository<Trip, Integer> {
     @Modifying
     void setPrivateByTripId(@Param("trip_id") Integer trip_id);
 	
+	@Query("SELECT t FROM Trip t LEFT OUTER JOIN Access a ON a.trip_id = t.trip_id WHERE a.approved_users = :username")
+	List<Trip> findAllShared(@Param("username") String username);
+	
 }
