@@ -38,6 +38,7 @@
 								<tr th:each="access, stat : *{accessUpdateForm}">
 									<th>
 										<input type="text" class="form-control" th:field="*{accessUpdateForm[__${stat.index}__].approved_users}" th:value="${access.approved_users}">
+										<div th:if="${#fields.hasErrors('accessUpdateForm[' + stat.index + '].approved_users')}" th:errors="*{accessUpdateForm[__${stat.index}__].approved_users}"></div>
 									</th>
 									<th>
 										<input type="hidden" class="form-control" th:field="*{accessUpdateForm[__${stat.index}__].access_id}" th:value="${access.access_id}">

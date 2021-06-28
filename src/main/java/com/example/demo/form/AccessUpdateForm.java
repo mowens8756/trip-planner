@@ -6,6 +6,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.example.demo.annotation.UserSearch;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +27,7 @@ public class AccessUpdateForm implements Serializable{
 	@NotBlank
 	@Size(max = 30)
 	private String username;
+	@UserSearch(existingUsername = "username", message = "存在しないユーザです")
 	private String approved_users;
 	
 }
